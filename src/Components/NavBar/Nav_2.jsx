@@ -32,7 +32,7 @@ const Nav_2 = () => {
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                         </div>
-                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 font-montserrat font-medium text-black">
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 bg-base-100 rounded-box w-52 font-montserrat font-medium text-black shadow-xl" style={{ backgroundColor: '#F0F0F0', color: "black" }}>
                             {navLink}
 
                         </ul>
@@ -51,28 +51,29 @@ const Nav_2 = () => {
                 </div>
 
                 <div className="navbar-end ">
-                    {
-                        user ?
-                            <>
-                                <div className="flex gap-3 items-center">
-                                    <h1 className="text-black font-bold">{user?.full_name}</h1>
-                                    <Link onClick={handleLogOut} className="btn bg-[#F9A51A] w-24 h-11 rounded-md text-Black font-medium border-0 outline-none " style={{ color: "black" }}
-                                        onMouseEnter={(e) => { e.target.style.backgroundColor = '#D78C00'; e.target.style.color = '#000'; }}
-                                        onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
-                                    >LogOut</Link>
+
+                    <div className="mr-3 items-center hidden min-xl:flex">
+                        <h1 className="text-black font-bold uppercase">{user?.full_name}</h1>
+                    </div>
+                    <div className="flex-none" >
+                        <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+                                    <img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
                                 </div>
-                            </>
-                            :
-                            <Link
-                                to={"/login"}
-                                className="btn bg-[#F9A51A] w-24 h-11 rounded-md text-Black font-medium border-0 outline-none"
-                                style={{ color: "black", textDecoration: "none" }}
-                                onMouseEnter={(e) => { e.target.style.backgroundColor = '#D78C00'; e.target.style.color = '#FFF'; }}
-                                onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
-                            >
-                                Login
-                            </Link>
-                    }
+                            </div>
+                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 font-medium" style={{ backgroundColor: '#F0F0F0', color: "black" }}>
+                                <li>
+                                    <a className="justify-between">
+                                        Profile
+                                        <span className="badge">New</span>
+                                    </a>
+                                </li>
+
+                                <li><a>Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
 

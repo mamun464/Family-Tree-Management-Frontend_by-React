@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'min-xl': '500px', // Define your custom breakpoint for sm
+        // Add more custom breakpoints if needed
+      },
+    },
   },
   plugins: [require("daisyui")],
 }

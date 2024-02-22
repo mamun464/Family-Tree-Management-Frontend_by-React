@@ -20,6 +20,17 @@ const Login = () => {
         }
     }, [navigate]);
 
+    const handlephoneChange = (e) => {
+        const phoneNumberInput = e.target.value;
+        const isValidPhoneNumber = /^[+\-\(\)\d]+$/.test(phoneNumberInput);
+
+        if (!isValidPhoneNumber) {
+            // Display a toast message or any other notification
+            toast.warn(`Only Allow Numbers`);
+            e.target.value = '';
+        }
+    };
+
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -69,7 +80,7 @@ const Login = () => {
         <>
             <Nav_2 />
 
-            <div className="w-full  mx-auto md:w-[90%] lg:w-[70%] xl:w-[50%] 2xl:w-[40%] px-4 ">
+            <div className="w-full h-screen  mx-auto md:w-[90%] lg:w-[70%] xl:w-[50%] 2xl:w-[40%] px-4 ">
                 {loading && (
                     <Loader></Loader>
                 )}
@@ -80,12 +91,12 @@ const Login = () => {
                     <form onSubmit={handleLogin}>
                         <div className="mb-6">
                             <input
-                                type="number"
-                                id="username"
+                                type="tel"
                                 className="border-b-2 border-[#C5C5C5] font-medium focus:border-[#F9A51A] w-full py-2 px-3 pl-0 text-black focus:outline-none"
-                                placeholder="Your Phone Number"
-                                name="phone_no"
+                                placeholder="Phone Number"
                                 required
+                                name="phone_no"
+                                onInput={handlephoneChange}
                             />
                         </div>
                         <div className="mb-6">

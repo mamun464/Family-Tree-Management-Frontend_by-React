@@ -3,11 +3,14 @@ import Nav_2 from "../NavBar/Nav_2";
 import { useContext, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from "../../Provider/AuthProvider";
+import { Base_Url } from "../../../public/utils";
+import Loader from "../Loader/Loader";
 
 
 const Registration = () => {
 
-    // const { createUser, googleLogin, fbLogin } = useContext(AuthContext)
+    const { setUser, loading, setLoading } = useContext(AuthContext)
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -30,45 +33,59 @@ const Registration = () => {
     };
 
 
-    const handleRegistration = (e) => {
+    const handleRegistration = async (e) => {
         e.preventDefault();
         const form = new FormData(e.currentTarget);
-        const firstName = form.get('fullName');
+        const full_name = form.get('fullName');
         const phone_no = form.get('phone_no');
         const email = form.get('email');
-        const DOB = form.get('DOB');
+        const date_of_birth = form.get('DOB');
         const password = form.get('password');
-        const confirmPassword = form.get('confirmPassword');
+        const password2 = form.get('confirmPassword');
 
 
 
-        if (password != confirmPassword) {
+        if (password != password2) {
             toast.error(`Confirm Password not match!`);
         }
-        console.log(firstName);
-        console.log(phone_no);
-        console.log(email);
-        console.log(DOB);
-        console.log(password);
-        console.log(confirmPassword);
-        //  else {
-        //     createUser(email, password)
-        //         .then(result => {
-        //             updateProfile(result.user, {
-        //                 displayName: `${firstName} ${lastName}`
-        //             }).then(re => {
-        //                 console.log("User updated",);
-        //             }).catch(err => {
-        //                 console.error(err);
-        //             });
-        //             console.log("Registration successful:", result.user);
-        //             toast.success('🦄 Registration successful!');
-        //             navigate(location?.state ? location.state : '/')
-        //         }).catch(err => {
-        //             console.error(err);
-        //             toast.error(`Registration Failed! ${err.message}`);
-        //         })
-        // }
+        else {
+            setLoading(true);
+
+            try {
+                const response = await fetch(`${Base_Url}/api/member/register/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ full_name, email, phone_no, date_of_birth, password, password2 })
+                });
+
+
+
+                const result = await response.json();
+                if (result.success) {
+                    setUser(result.user_data)
+                    const { access, refresh } = result.token;
+                    localStorage.setItem('access_token', access);
+                    localStorage.setItem('refresh_token', refresh);
+                    localStorage.setItem('user', JSON.stringify(result.new_user));
+                    toast.success(result.message);
+
+                    setTimeout(() => {
+                        navigate(location?.state ? location.state : '/'); // Assuming 'Home' is your home screen name
+                    }, 900);
+
+                    // navigate(location?.state ? location.state : '/')
+                } else {
+                    toast.error(result.message);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                toast.error(`Login Failed! ${error.message}`);
+            } finally {
+                setLoading(false);
+            }
+        }
 
 
     };
@@ -77,6 +94,9 @@ const Registration = () => {
             <Nav_2></Nav_2>
 
             <div className="w-full max-w-md mx-auto px-4 py-8 sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
+                {loading && (
+                    <Loader></Loader>
+                )}
                 <div className="w-full border border-[#ABABAB] rounded p-8 font-montserrat">
                     <h1 className="text-black text-2xl font-bold mb-6 text-center">Create an account</h1>
 
