@@ -117,11 +117,19 @@ const Login = () => {
                             </div>
 
                             <div className="text-[#F9A51A] font-medium underline">
-                                <a href="">Forgot Password</a>
+                                <a href=""
+                                    style={{ transition: "font-size 0.3s, color 0.3s", fontSize: "1rem" }}
+                                    onMouseEnter={(e) => { e.target.style.fontSize = '1rem'; e.target.style.color = '#D48700'; }}
+                                    onMouseLeave={(e) => { e.target.style.fontSize = '0.95rem'; e.target.style.color = '#F9A51A'; }}
+                                >Forgot Password</a>
                             </div>
                         </div>
 
-                        <button type="submit" className="bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2]">Login</button>
+                        <button type="submit" className="bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2]"
+                            style={{ color: "black", transition: "color 0.3s" }}
+                            onMouseEnter={(e) => { e.target.style.backgroundColor = '#D48700'; e.target.style.color = '#fff'; }}
+                            onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
+                        >Login</button>
                         <p className="mt-4 font-medium text-center">Don’t have an account? <Link to={"/register"}><span className="text-[#F9A51A] underline">Create an account</span></Link></p>
                     </form>
                 </div>
