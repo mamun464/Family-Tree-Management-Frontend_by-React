@@ -130,7 +130,11 @@ const Login = () => {
                             onMouseEnter={(e) => { e.target.style.backgroundColor = '#D48700'; e.target.style.color = '#fff'; }}
                             onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
                         >Login</button>
-                        <p className="mt-4 font-medium text-center">Don’t have an account? <Link to={"/register"}><span className="text-[#F9A51A] underline">Create an account</span></Link></p>
+                        <p className="mt-4 font-medium text-center">Don’t have an account? <Link to={"/register"}><span className="text-[#F9A51A] underline"
+                            style={{ transition: "font-size 0.3s, color 0.3s", fontSize: "1rem" }}
+                            onMouseEnter={(e) => { e.target.style.fontSize = '1rem'; e.target.style.color = '#D48700'; }}
+                            onMouseLeave={(e) => { e.target.style.fontSize = '0.95rem'; e.target.style.color = '#F9A51A'; }}
+                        >Create an account</span></Link></p>
                     </form>
                 </div>
 

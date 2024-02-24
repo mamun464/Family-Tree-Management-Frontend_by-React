@@ -4,6 +4,7 @@ import Login from './../Components/Login/Login';
 import Home from "../Components/Home/Home";
 import PrivateRoutes from "./PrivateRoutes";
 import Registration from './../Components/Registration/Registration';
+import MemberProfileEdit from "../Components/MemberProfile/MemberProfileEdit";
 
 
 
@@ -25,6 +26,11 @@ const Routes = createBrowserRouter([
             {
                 path: "register/",
                 element: <Registration></Registration>
+
+            },
+            {
+                path: "profile/",
+                element: <MemberProfileEdit></MemberProfileEdit>
 
             },
 

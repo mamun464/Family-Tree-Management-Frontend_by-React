@@ -1,18 +1,27 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 // import { AuthContext } from "../../Provider/AuthProvider";
 
 
 
 
-const Nav_2 = () => {
+const Nav_2 = ({ bgColor = "#fff" }) => {
+
+    useEffect(() => {
+        document.body.style.backgroundColor = bgColor;
+    }, [bgColor]);
 
     const [user, setUser] = useState("");
+    const [isRegistered, setIsRegistered] = useState(false);
+    const location = useLocation();
     useEffect(() => {
+        if (location.pathname == "/register") {
+            setIsRegistered(true);
+        }
         const storedUser = localStorage.getItem('user');
         setUser(JSON.parse(storedUser));
 
-    }, []);
+    }, [location.pathname]);
 
     const handleLogOut = () => {
         localStorage.clear();
@@ -26,7 +35,7 @@ const Nav_2 = () => {
     </>
     return (
         <>
-            <div className="navbar  max-w-7xl mx-auto text-black relative">
+            <div className="navbar  max-w-7xl mx-auto text-black relative" style={{ backgroundColor: bgColor }}>
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -77,7 +86,7 @@ const Nav_2 = () => {
                                 </div>
                             </div>
                         </>
-                            : <Link
+                            : isRegistered ? <Link
                                 to={"/login"}
                                 className="btn bg-[#F9A51A] w-24 h-11 rounded-md text-black font-medium border-0 outline-none flex items-center justify-center"
                                 style={{ color: "black", transition: "color 0.3s" }}
@@ -86,6 +95,15 @@ const Nav_2 = () => {
                             >
                                 Login
                             </Link>
+                                : <Link
+                                    to={"/register"}
+                                    className="btn bg-[#F9A51A] w-24 h-11 rounded-md text-black font-medium border-0 outline-none flex items-center justify-center"
+                                    style={{ color: "black", transition: "color 0.3s" }}
+                                    onMouseEnter={(e) => { e.target.style.backgroundColor = '#D48700'; e.target.style.color = '#fff'; }}
+                                    onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
+                                >
+                                    Sign Up
+                                </Link>
                     }
                 </div>
 
