@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 // import { AuthContext } from "../../Provider/AuthProvider";
+import { IoSettingsOutline } from "react-icons/io5";
 
 
 
 
 const Nav_2 = ({ bgColor = "#fff" }) => {
-
+    const [open, setOpen] = useState(false);
     useEffect(() => {
         document.body.style.backgroundColor = bgColor;
     }, [bgColor]);
@@ -63,27 +64,52 @@ const Nav_2 = ({ bgColor = "#fff" }) => {
 
                     {
                         user ? <>
-                            <div className="mr-3 items-center hidden min-xl:flex">
-                                <h1 className="text-black font-bold uppercase">{user?.full_name}</h1>
-                            </div>
-                            <div className="flex-none" >
-                                <div className="dropdown dropdown-end">
-                                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                        <div className="w-10 rounded-full">
-                                            <img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                                        </div>
-                                    </div>
-                                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 font-medium" style={{ backgroundColor: '#F0F0F0', color: "black" }}>
-                                        <li>
-                                            <a className="justify-between">
-                                                Profile
-                                                <span className="badge">New</span>
-                                            </a>
-                                        </li>
+                            {/* Please add here that component */}
 
-                                        <li onClick={handleLogOut}><a >Logout</a></li>
-                                    </ul>
+                            <div className="relative">
+                                <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setOpen(!open)}>
+                                    <div className="w-12 h-12 rounded-full overflow-hidden border-2 dark:border-white border-gray-900 transition duration-300 ease-in-out transform hover:scale-105">
+                                        {user?.user_profile_img ?
+                                            <>
+                                                <img src={user?.user_profile_img} alt="" className="w-full h-full object-cover" />
+                                            </>
+                                            : <img src="/UserProfile.png" alt="" className="w-full h-full object-cover" />}
+
+                                    </div>
+                                    <div className="font-semibold dark:text-white text-gray-900 text-lg hover:text-indigo-700 transition duration-300 ease-in-out">
+                                        <div className="cursor-pointer hidden min-xl:block">{user?.full_name}</div>
+                                    </div>
                                 </div>
+                                {open && (
+                                    <div className="absolute top-full -left-56 w-60 px-5 py-3 min-xl:left-0 dark:bg-gray-800 bg-white rounded-lg shadow border dark:border-transparent mt-2 z-50">
+                                        <ul className="menu menu-sm dropdown-content pl-0 space-y-3 dark:text-white">
+                                            <li className="font-medium">
+                                                <Link to={"/"} className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700">
+                                                    <div className="mr-3">
+                                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                                    </div>
+                                                    Account
+                                                </Link>
+                                            </li>
+                                            <li className="font-medium">
+                                                <Link to={"/profile-edit"} href="#" className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700">
+                                                    <div className="text-2xl mr-3">
+                                                        <IoSettingsOutline />
+                                                    </div>
+                                                    Setting
+                                                </Link>
+                                            </li>
+                                            <li className="font-medium">
+                                                <Link onClick={handleLogOut} href="#" className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-red-600">
+                                                    <div className="mr-3 text-red-600">
+                                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                                    </div>
+                                                    Logout
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
                         </>
                             : isRegistered ? <Link

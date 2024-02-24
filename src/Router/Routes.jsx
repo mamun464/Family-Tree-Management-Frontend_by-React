@@ -5,6 +5,7 @@ import Home from "../Components/Home/Home";
 import PrivateRoutes from "./PrivateRoutes";
 import Registration from './../Components/Registration/Registration';
 import MemberProfileEdit from "../Components/MemberProfile/MemberProfileEdit";
+import Test from "../Components/MemberProfile/Test";
 
 
 
@@ -29,8 +30,13 @@ const Routes = createBrowserRouter([
 
             },
             {
-                path: "profile/",
-                element: <MemberProfileEdit></MemberProfileEdit>
+                path: "profile-edit/",
+                element: <PrivateRoutes><MemberProfileEdit></MemberProfileEdit></PrivateRoutes>
+
+            },
+            {
+                path: "e/",
+                element: <Test></Test>
 
             },
 
