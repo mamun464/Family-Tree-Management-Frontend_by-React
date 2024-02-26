@@ -7,8 +7,9 @@ import { IoSettingsOutline } from "react-icons/io5";
 
 
 // eslint-disable-next-line react/prop-types
-const Nav_2 = ({ bgColor = "#fff" }) => {
+const Nav_2 = ({ bgColor = "#fff", home = false }) => {
     const [open, setOpen] = useState(false);
+
     useEffect(() => {
         document.body.style.backgroundColor = bgColor;
     }, [bgColor]);
@@ -37,7 +38,9 @@ const Nav_2 = ({ bgColor = "#fff" }) => {
     </>
     return (
         <>
-            <div className="navbar  max-w-7xl mx-auto text-black relative" style={{ backgroundColor: bgColor }}>
+            <div className={`navbar bg-white bg-opacity-0 max-w-7xl mx-auto relative `}
+            // style={{ backgroundColor: bgColor }}
+            >
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -55,7 +58,7 @@ const Nav_2 = ({ bgColor = "#fff" }) => {
 
 
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1 font-montserrat font-medium">
+                    <ul className={`menu menu-horizontal px-1 font-montserrat font-medium ${home ? 'text-white' : 'text-black'}`}>
                         {navLink}
 
                     </ul>
@@ -77,9 +80,9 @@ const Nav_2 = ({ bgColor = "#fff" }) => {
                                             : <img src="/UserProfile.png" alt="" className="w-full h-full object-cover" />}
 
                                     </div>
-                                    <div className="font-semibold dark:text-white text-gray-900 text-lg hover:text-indigo-700 transition duration-300 ease-in-out">
-                                        <div className="cursor-pointer hidden min-xl:block"
-                                            style={{ color: "black", transition: "color 0.3s" }}>{user?.full_name}</div>
+                                    <div className="font-semibold  text-gray-100 text-lg hover:text-indigo-700 transition duration-300 ease-in-out">
+                                        <div className={`cursor-pointer hidden min-xl:block ${home ? 'text-white' : 'text-black'}  hover:text-indigo-700 transition duration-300 ease-in-out`}
+                                            style={{ transition: "color 0.3s" }}>{user?.full_name}</div>
                                     </div>
                                 </div>
                                 {open && (

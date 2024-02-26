@@ -113,57 +113,63 @@ const AllMember = () => {
             {loading && (
                 <Loader></Loader>
             )}
-            <div className="z-10">
+            {/* <div className="z-10">
                 <Nav_2></Nav_2>
 
-            </div>
-            <div className="hero h-[450px]  relative">
+            </div> */}
+            <div className=" h-[450px]  relative">
 
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
-                        backgroundImage: 'url(https://i.ibb.co/7zg43bd/banner-donations.jpg)',
-                        opacity: 0.1
+                        backgroundImage: 'url(/family_banner.jpg)',
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        // zIndex: -1,
                     }}>
-
+                    <div className="absolute inset-0 bg-black opacity-55"></div>
+                    <Nav_2 home={true} style={{ zIndex: 100 }}></Nav_2>
 
                 </div>
 
-                <div className="hero-content text-center text-neutral-content relative z-10">
 
-                    <div className="">
-                        <h1 className="mb-8 text-3xl md:text-5xl font-bold text-[#0B0B0B] uppercase"
-                            style={{
+                <div className="hero">
+                    <div className="hero-content text-center text-neutral-content relative z-10 top-[90%]">
 
-                                animation: 'pulse 2s infinite',
+                        <div className="">
+                            <h1 className="mb-8 text-3xl md:text-5xl font-bold text-[#0B0B0B] uppercase"
+                                style={{
 
-                            }}
-                        >
-                            <LinearGradient gradient={['to top left', '#17acff ,#ff68f0']}>
-                                I'm proud to be  a part of <span className="italic">Sonatundi's Family</span>
-                            </LinearGradient>
-                        </h1>
+                                    animation: 'pulse 2s infinite',
 
-
-                        <div className="flex space-x-4">
-                            <div className="flex justify-center rounded-md overflow-hidden w-full">
-                                <input onChange={(event) => setSearchValue(event.target.value)}
-                                    onKeyPress={handleKeyPress}
-                                    type="text" className="w-1/2 border border-solid border-gray-300  text-black bg-white py-4 px-7 rounded-md rounded-r-none outline-none focus:border-gray-400 focus:bg-gray-50"
-                                    placeholder="Search by Name or Email or Phone Number"
-                                />
-                                <button onClick={handleSearch} className="text-lg sm:w-36 sm:py-3 sm:px-7 md:w-36 md:py-4 md:px-8 rounded-r-md py-2 px-4 text-white font-semibold bg-[#FF444A] hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-300 ease-in-out active:bg-[#FF2227]">
-                                    Search
-                                </button>
+                                }}
+                            >
+                                <LinearGradient gradient={['to top left', '#17acff ,#ff68f0']}>
+                                    I'm proud to be  a part of <span className="italic">Sonatundi's Family</span>
+                                </LinearGradient>
+                            </h1>
 
 
+                            <div className="flex space-x-4">
+                                <div className="flex justify-center rounded-md overflow-hidden w-full">
+                                    <input onChange={(event) => setSearchValue(event.target.value)}
+                                        onKeyPress={handleKeyPress}
+                                        type="text" className="w-1/2 border border-solid border-gray-300  text-black bg-white py-4 px-7 rounded-md rounded-r-none outline-none focus:border-gray-400 focus:bg-gray-50"
+                                        placeholder="Search by Name or Email or Phone Number"
+                                    />
+                                    <button onClick={handleSearch} className="text-lg sm:w-36 sm:py-3 sm:px-7 md:w-36 md:py-4 md:px-8 rounded-r-md py-2 px-4 text-white font-semibold bg-[#FF444A] hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-300 ease-in-out active:bg-[#FF2227]">
+                                        Search
+                                    </button>
+
+
+
+                                </div>
 
                             </div>
-
+                            {/* <button
+        // onClick={handleSearchButton}
+        className='py-[16.9px] px-7 text-white font-semibold bg-[#FF444A] rounded-lg  xs:rounded-tl-none xs:rounded-bl-none'>Search</button> */}
                         </div>
-                        {/* <button
-                            // onClick={handleSearchButton}
-                            className='py-[16.9px] px-7 text-white font-semibold bg-[#FF444A] rounded-lg  xs:rounded-tl-none xs:rounded-bl-none'>Search</button> */}
                     </div>
                 </div>
 
