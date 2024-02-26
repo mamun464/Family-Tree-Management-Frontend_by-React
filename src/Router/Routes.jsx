@@ -6,6 +6,11 @@ import PrivateRoutes from "./PrivateRoutes";
 import Registration from './../Components/Registration/Registration';
 import MemberProfileEdit from "../Components/MemberProfile/MemberProfileEdit";
 import Test from "../Components/MemberProfile/Test";
+import App from "../App";
+import ProfileView from "../Components/MemberprofileView/ProfileView";
+import OwnProfile from "../Components/MemberprofileView/OwnProfile";
+import AllMember from "../Components/AllMember/AllMember";
+import SingleMemberDetails from "../Components/AllMember/SingleMemberDetails";
 
 
 
@@ -14,9 +19,14 @@ const Routes = createBrowserRouter([
         path: "/",
         element: <Root></Root>,
         children: [
+            // {
+            //     path: "/",
+            //     element: <PrivateRoutes><Home></Home></PrivateRoutes>
+
+            // },
             {
                 path: "/",
-                element: <PrivateRoutes><Home></Home></PrivateRoutes>
+                element: <AllMember></AllMember>
 
             },
             {
@@ -35,8 +45,14 @@ const Routes = createBrowserRouter([
 
             },
             {
-                path: "e/",
-                element: <Test></Test>
+                path: "my-profile/",
+                element: <PrivateRoutes><OwnProfile></OwnProfile></PrivateRoutes>
+
+            },
+
+            {
+                path: "members/:id",
+                element: <PrivateRoutes><SingleMemberDetails></SingleMemberDetails></PrivateRoutes>
 
             },
 

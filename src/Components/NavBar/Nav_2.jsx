@@ -6,6 +6,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 
 
 
+// eslint-disable-next-line react/prop-types
 const Nav_2 = ({ bgColor = "#fff" }) => {
     const [open, setOpen] = useState(false);
     useEffect(() => {
@@ -29,7 +30,7 @@ const Nav_2 = ({ bgColor = "#fff" }) => {
         window.location.reload();
     }
     const navLink = <>
-        <li><NavLink to={"/d"}>News</NavLink></li>
+        <li><NavLink to={"/"}>Home</NavLink></li>
         <li><NavLink to={"/d"}>Destination</NavLink></li>
         <li><NavLink to={"/d"}>Blog</NavLink></li>
         <li><NavLink to={"/d"}>Contact</NavLink></li>
@@ -77,14 +78,15 @@ const Nav_2 = ({ bgColor = "#fff" }) => {
 
                                     </div>
                                     <div className="font-semibold dark:text-white text-gray-900 text-lg hover:text-indigo-700 transition duration-300 ease-in-out">
-                                        <div className="cursor-pointer hidden min-xl:block">{user?.full_name}</div>
+                                        <div className="cursor-pointer hidden min-xl:block"
+                                            style={{ color: "black", transition: "color 0.3s" }}>{user?.full_name}</div>
                                     </div>
                                 </div>
                                 {open && (
                                     <div className="absolute top-full -left-56 w-60 px-5 py-3 min-xl:left-0 dark:bg-gray-800 bg-white rounded-lg shadow border dark:border-transparent mt-2 z-50">
                                         <ul className="menu menu-sm dropdown-content pl-0 space-y-3 dark:text-white">
                                             <li className="font-medium">
-                                                <Link to={"/"} className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700">
+                                                <Link to={"/my-profile"} className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700">
                                                     <div className="mr-3">
                                                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                                                     </div>

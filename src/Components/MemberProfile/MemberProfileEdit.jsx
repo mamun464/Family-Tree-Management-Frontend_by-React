@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useContext, useEffect, useRef, useState } from 'react';
 import Nav_2 from '../NavBar/Nav_2';
 import { FaUpload } from "react-icons/fa6";
@@ -18,7 +19,7 @@ const MemberProfileEdit = () => {
     const navigate = useNavigate();
     const { setLoading, loading } = useContext(AuthContext)
     const [user, setUser] = useState(getProfileLocalStorage());
-    const [token, setToken] = useState(getProfileLocalStorage());
+    const [token, setToken] = useState(getTokenFromLocalStorage());
 
 
     const [debouncedFetch, setDebouncedFetch] = useState(false); // Control debouncing
@@ -59,12 +60,6 @@ const MemberProfileEdit = () => {
     const [user_profile_img, setUser_profile_img] = useState(user?.user_profile_img);
     const fileInputRef = useRef(null);
 
-    // useEffect(() => {
-    //     console.log(user);
-    //     console.log("isAlive: ", isAlive);
-    //     console.log("is marrid: ", isMarried);
-
-    // }, [isAlive, isMarried]);
 
 
 
@@ -251,7 +246,7 @@ const MemberProfileEdit = () => {
                                 zIndex: '9999'
                             }}
                         >
-                            It's a Free server. Don't refresh
+                            It's a Free server. Don't refresh Please
                         </p>
                     </div>
                 )}
@@ -474,7 +469,7 @@ const MemberProfileEdit = () => {
                                                 <FaFacebook /> Facebook
                                             </label>
                                             <input type="email" className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                                placeholder="Your Profile Url"
+                                                placeholder="Url must be https://"
                                                 value={facebook}
                                                 onChange={(event) => setFacebook(event.target.value)} />
                                         </div>
@@ -485,7 +480,7 @@ const MemberProfileEdit = () => {
                                                 <AiFillInstagram /> Instagram
                                             </label>
                                             <input type="text" className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                                placeholder="Your Profile Url"
+                                                placeholder="Url must be https://"
                                                 value={instagram}
                                                 onChange={(event) => setInstagram(event.target.value)} />
                                         </div>
@@ -496,7 +491,7 @@ const MemberProfileEdit = () => {
                                                 <FaLinkedin />   Linkedin
                                             </label>
                                             <input type="text" className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                                placeholder="Your Profile Url"
+                                                placeholder="Url must be https://"
                                                 value={linkedin}
                                                 onChange={(event) => setLinkedin(event.target.value)} />
                                         </div>

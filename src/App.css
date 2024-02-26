@@ -1,0 +1,68 @@
+.App {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.todos-container,
+.done-container {
+    width: 45%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.todos-container {
+    background-color: #f8f8f8;
+}
+
+.done-container {
+    background-color: #e0f7fa;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+.todos,
+.done {
+    min-height: 150px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.todo,
+.completed-task {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.todo:hover,
+.completed-task:hover {
+    background-color: #f0f0f0;
+}
+
+.todo:active,
+.completed-task:active {
+    transform: translateY(1px);
+}
+
+.done {
+    background-color: #e0f7fa;
+}
+
+.done .completed-task {
+    background-color: #b2ebf2;
+}
+
+.done .completed-task:hover {
+    background-color: #a3e9f5;
+}
+
+.done .completed-task:active {
+    transform: translateY(1px);
+}
