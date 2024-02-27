@@ -1,11 +1,12 @@
 
 import { PropTypes } from 'prop-types';
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import Loader from '../Components/Loader/Loader';
 
 const PrivateRoutes = ({ children }) => {
     const [loginStatus, setLoginStatus] = useState(null);
+    const location = useLocation();
     useEffect(() => {
         const checkLoginStatus = () => {
             const storedToken = localStorage.getItem('access_token');
@@ -23,7 +24,7 @@ const PrivateRoutes = ({ children }) => {
         return children;
     } else {
         // User is not logged in, redirect to login page
-        return <Navigate to="/login" state={{ from: location.pathname }} />;
+        return <Navigate state={location.pathname} to={"/login"}></Navigate>
     }
 };
 

@@ -11,7 +11,7 @@ const Footer = () => {
         <footer className="footer  p-10 pt-7 bg-neutral text-neutral-content">
 
             <aside>
-                <h1 className="text-xl mb-1">Developed by</h1>
+                <h1 className="text-xl mb-1">Developed & Managing by</h1>
                 <div className="avatar">
                     <div className="w-20 rounded-xl">
                         <img src="/mamunNew.jpg" />

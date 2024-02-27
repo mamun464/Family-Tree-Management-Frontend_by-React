@@ -152,10 +152,13 @@ const AllMember = () => {
 
                             <div className="flex space-x-4">
                                 <div className="flex justify-center rounded-md overflow-hidden w-full">
-                                    <input onChange={(event) => setSearchValue(event.target.value)}
+                                    <input
+                                        onChange={(event) => setSearchValue(event.target.value)}
                                         onKeyPress={handleKeyPress}
-                                        type="text" className="w-1/2 border border-solid border-gray-300  text-black bg-white py-4 px-7 rounded-md rounded-r-none outline-none focus:border-gray-400 focus:bg-gray-50"
+                                        type="text"
+                                        className="w-1/2 border border-solid border-gray-300 text-black  py-4 px-7 rounded-md rounded-r-none outline-none bg-gray-50 focus:border-gray-400 focus:bg-gray-200"
                                         placeholder="Search by Name or Email or Phone Number"
+
                                     />
                                     <button onClick={handleSearch} className="text-lg sm:w-36 sm:py-3 sm:px-7 md:w-36 md:py-4 md:px-8 rounded-r-md py-2 px-4 text-white font-semibold bg-[#FF444A] hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-300 ease-in-out active:bg-[#FF2227]">
                                         Search

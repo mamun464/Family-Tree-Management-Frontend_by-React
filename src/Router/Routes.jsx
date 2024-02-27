@@ -11,6 +11,7 @@ import ProfileView from "../Components/MemberprofileView/ProfileView";
 import OwnProfile from "../Components/MemberprofileView/OwnProfile";
 import AllMember from "../Components/AllMember/AllMember";
 import SingleMemberDetails from "../Components/AllMember/SingleMemberDetails";
+import AddRelation from "../Components/Relationship/AddRelation";
 
 
 
@@ -53,6 +54,13 @@ const Routes = createBrowserRouter([
             {
                 path: "members/:id",
                 element: <PrivateRoutes><SingleMemberDetails></SingleMemberDetails></PrivateRoutes>
+
+            },
+            {
+                path: "connection/",
+                element: <PrivateRoutes>
+                    <AddRelation></AddRelation>
+                </PrivateRoutes>
 
             },
 

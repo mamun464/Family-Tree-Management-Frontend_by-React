@@ -1,4 +1,4 @@
-import { Link, useNavigate, } from "react-router-dom";
+import { Link, useLocation, useNavigate, } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Nav_2 from "../NavBar/Nav_2";
@@ -9,16 +9,16 @@ import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
     const { setUser, setLoading, loading } = useContext(AuthContext)
-
+    const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
         // Check if user is already logged in
         const isLoggedIn = localStorage.getItem('access_token');
         if (isLoggedIn) {
-            navigate('/');
+            navigate(location?.state ? location.state : '/');
         }
-    }, [navigate]);
+    }, []);
 
     const handlephoneChange = (e) => {
         const phoneNumberInput = e.target.value;

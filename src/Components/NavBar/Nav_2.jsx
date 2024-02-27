@@ -32,7 +32,7 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
     }
     const navLink = <>
         <li><NavLink to={"/"}>Home</NavLink></li>
-        <li><NavLink to={"/d"}>Destination</NavLink></li>
+        <li><NavLink to={"/connection"}>Make Relationship</NavLink></li>
         <li><NavLink to={"/d"}>Blog</NavLink></li>
         <li><NavLink to={"/d"}>Contact</NavLink></li>
     </>
