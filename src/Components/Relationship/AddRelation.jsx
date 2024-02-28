@@ -10,25 +10,28 @@ import SearchDropDown from './SearchDropDown';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Base_Url } from '../../../public/utils';
+import axios from 'axios';
 
 import PersonViewCard from './PersonViewCard';
+import { getTokenFromLocalStorage } from './../../Utils/Utils';
+import Table from './RelationTable/Table';
 
 const AddRelation = () => {
     const [display, setDisplay] = useState([])
-    const [selectedPeople, setSelectedPeople] = useState(null)
+    const [related_person, setRelated_person] = useState(null)
     const [searchValue, setSearchValue] = useState("");
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [selectedRelationship, setSelectedRelationship] = useState(null);
+    const [relationship_type, setRelationship_type] = useState(null);
 
     // Function to handle selection
     const handleSelect = (relationship) => {
-        setSelectedRelationship(relationship);
+        setRelationship_type(relationship);
         setDropdownOpen(!dropdownOpen);
     };
     const handleRest = () => {
-        setSelectedRelationship(null);
-        setSelectedPeople(null);
+        setRelationship_type(null);
+        setRelated_person(null);
     };
 
     const handleCancel = () => {
@@ -37,7 +40,7 @@ const AddRelation = () => {
     const handlePeopleClick = (id) => {
 
         const specificElement = display.find(item => item.id == id);
-        setSelectedPeople(specificElement)
+        setRelated_person(specificElement)
         setDisplay([])
         // console.log(specificElement);
     };
@@ -49,7 +52,7 @@ const AddRelation = () => {
         if (searchValue != "") {
             SearchMembers()
         }
-        console.log(selectedRelationship);
+        console.log(relationship_type);
 
     }, [searchValue]);
 
@@ -60,6 +63,60 @@ const AddRelation = () => {
 
 
     }, [loading]);
+
+
+
+
+    const handleConnection = async () => {
+        try {
+            const authToken = getTokenFromLocalStorage();
+            const formData = new FormData();
+            formData.append('relationship_type', relationship_type);
+            formData.append('related_person', related_person.id);
+
+            setLoading(true);
+
+            const response = await axios.post(`${Base_Url}/api/member/create-connection/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${authToken}`
+                }
+            });
+
+            const result = response.data;
+
+            if (result.success) {
+                toast.success(result.message);
+            } else {
+                handleError(result);
+            }
+        } catch (error) {
+            handleError(error.response ? error.response.data : error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleError = (error) => {
+        console.error('Error handling connection:', error);
+
+        if (error.status === 401) {
+            localStorage.clear();
+            window.location.reload();
+        } else {
+            toast.error(error.message || 'Connection create failed!');
+        }
+    };
+
+    const getTokenFromLocalStorage = () => {
+        const token = localStorage.getItem('access_token');
+
+        if (!token) {
+            console.log("Token not found");
+        }
+
+        return token;
+    };
 
     const SearchMembers = async () => {
         setLoading(true);
@@ -77,6 +134,12 @@ const AddRelation = () => {
                 setDisplay(result.user_data.slice(0, 4))
                 // toast.success(result.message);
 
+            }
+
+            else if (result.status === 401) {
+
+                localStorage.clear();
+                window.location.reload();
             } else {
                 toast.error(result.message);
             }
@@ -119,16 +182,16 @@ const AddRelation = () => {
                                     <div className="w-full max-w-md">
                                         <div className="bg-white shadow-md rounded-lg px-3 py-4 mb-4">
                                             {
-                                                selectedPeople ? <div className=''>
+                                                related_person ? <div className=''>
                                                     <PersonViewCard
-                                                        user={selectedPeople}
+                                                        user={related_person}
                                                     ></PersonViewCard>
 
                                                     <div className="dropdown">
-                                                        <div tabIndex={0} role="button" className="btn m-1 mt-8" onClick={() => {
+                                                        <div tabIndex={0} role="button" className="btn btn-warning m-1 mt-8" onClick={() => {
                                                             setDropdownOpen(false);
                                                         }}>
-                                                            {selectedRelationship ? selectedRelationship : 'Select Relationship'}
+                                                            {relationship_type ? relationship_type : 'Select Relationship'}
                                                         </div>
                                                         {
                                                             !dropdownOpen ? <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
@@ -151,10 +214,10 @@ const AddRelation = () => {
                                                         }
                                                     </div>
                                                     {
-                                                        selectedRelationship ? <>
+                                                        relationship_type ? <>
                                                             <div className='flex justify-between mt-6 pb-2'>
                                                                 <button onClick={handleRest} className="btn btn-error">REST</button>
-                                                                <button className="btn btn-warning">Make Connection</button>
+                                                                <button onClick={handleConnection} className="btn btn-warning">Make Connection</button>
                                                             </div>
                                                         </>
                                                             :
@@ -207,13 +270,26 @@ const AddRelation = () => {
 
                                         </div>
                                         {/* end here */}
+
                                     </div>
+
+                                </div>
+                                <div className='w-[80%] mx-auto shadow-lg rounded-lg bg-white mb-11'>
+                                    <Table></Table>
                                 </div>
                             </div>
+                            {/* couldBe 2 B */}
+
+
                         </div>
+                        {/* couldBe 1*/}
+
                     </div>
+
                 </div>
+
             </section >
+
             <ToastContainer />
         </>
     );

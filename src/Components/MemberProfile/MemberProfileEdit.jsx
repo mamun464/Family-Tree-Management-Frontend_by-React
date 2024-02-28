@@ -95,7 +95,13 @@ const MemberProfileEdit = () => {
                 // }, 900);
 
                 // navigate(location?.state ? location.state : '/')
-            } else {
+            }
+            else if (result.status === 401) {
+
+                localStorage.clear();
+                window.location.reload();
+            }
+            else {
                 toast.error(result.message);
             }
         } catch (error) {
@@ -155,7 +161,13 @@ const MemberProfileEdit = () => {
                 }, 900);
 
 
-            } else {
+            }
+            else if (result.status === 401) {
+
+                localStorage.clear();
+                window.location.reload();
+            }
+            else {
                 toast.error(result.message);
             }
         } catch (error) {

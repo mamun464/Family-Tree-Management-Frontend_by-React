@@ -41,6 +41,11 @@ const SingleMemberDetails = () => {
                 setSingleUser(result.user_data)
                 console.log("User Set Success");
 
+            }
+            else if (result.status === 401) {
+
+                localStorage.clear();
+                window.location.reload();
             } else {
 
                 console.log("--------->False Response");
