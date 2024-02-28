@@ -18,6 +18,7 @@ const AllMember = () => {
     const [searchValue, setSearchValue] = useState("");
 
     const usersPerPage = 8;
+
     useEffect(() => {
         getAllMembers()
     }, []);

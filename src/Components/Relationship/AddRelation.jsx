@@ -87,6 +87,7 @@ const AddRelation = () => {
 
             if (result.success) {
                 toast.success(result.message);
+                window.location.reload();
             } else {
                 handleError(result);
             }
