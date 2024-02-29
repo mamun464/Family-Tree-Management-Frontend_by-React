@@ -12,6 +12,7 @@ import OwnProfile from "../Components/MemberprofileView/OwnProfile";
 import AllMember from "../Components/AllMember/AllMember";
 import SingleMemberDetails from "../Components/AllMember/SingleMemberDetails";
 import AddRelation from "../Components/Relationship/AddRelation";
+import Contact from "../Components/Contact/Contact";
 
 
 
@@ -38,6 +39,11 @@ const Routes = createBrowserRouter([
             {
                 path: "register/",
                 element: <Registration></Registration>
+
+            },
+            {
+                path: "contact/",
+                element: <Contact></Contact>
 
             },
             {

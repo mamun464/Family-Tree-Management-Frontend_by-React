@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from "../Loader/Loader";
 import { LinearGradient } from 'react-text-gradients'
 import NoRecordFound from "../NoRecordFound/NoRecordFound";
+import Skeleton from "../Loader/Skeleton";
 
 
 const AllMember = () => {
@@ -51,6 +52,7 @@ const AllMember = () => {
     };
 
     const SearchMembers = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`${Base_Url}/api/member/search/?query=${searchValue}`, {
                 method: 'post',
@@ -76,6 +78,7 @@ const AllMember = () => {
         }
     }
     const getAllMembers = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`${Base_Url}/api/member/all/`, {
                 method: 'get',
@@ -111,9 +114,7 @@ const AllMember = () => {
     return (
 
         <>
-            {loading && (
-                <Loader></Loader>
-            )}
+
             {/* <div className="z-10">
                 <Nav_2></Nav_2>
 
@@ -181,29 +182,53 @@ const AllMember = () => {
             </div>
 
             <div className=" bg-gray-100 rounded-md max-w-7xl mx-auto mb-10">
+
                 {
-                    display.length > 0 ? <>
+                    loading ? <>
                         <div className='p-8 mt-10 max-w-7xl mx-auto  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'>
-
-                            {
-                                display.map(user => <SingleMember
-                                    key={user.id}
-                                    user={user}
-                                ></SingleMember>)
-                            }
-                        </div>
-                        <div className="p-8 pb-4  flex justify-between">
-                            <button className="btn btn-warning w-24"
-                                onClick={handlePrevious}
-                            >Previous</button>
-
-                            <button className="btn btn-warning w-24"
-                                onClick={handleNext}
-                            >Next</button>
+                            <Skeleton></Skeleton>
+                            <Skeleton></Skeleton>
+                            <Skeleton></Skeleton>
+                            <Skeleton></Skeleton>
+                            <Skeleton></Skeleton>
+                            <Skeleton></Skeleton>
+                            <Skeleton></Skeleton>
+                            <Skeleton></Skeleton>
+                            <Skeleton></Skeleton>
                         </div>
                     </>
-                        : <NoRecordFound></NoRecordFound>
+
+
+
+
+                        : <>
+                            {
+                                display.length > 0 ? <>
+                                    <div className='p-8 mt-10 max-w-7xl mx-auto  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'>
+
+                                        {
+                                            display.map(user => <SingleMember
+                                                key={user.id}
+                                                user={user}
+                                            ></SingleMember>)
+                                        }
+                                    </div>
+                                    <div className="p-8 pb-4  flex justify-between">
+                                        <button className="btn btn-warning w-24"
+                                            onClick={handlePrevious}
+                                        >Previous</button>
+
+                                        <button className="btn btn-warning w-24"
+                                            onClick={handleNext}
+                                        >Next</button>
+                                    </div>
+                                </>
+                                    : <NoRecordFound></NoRecordFound>
+                            }
+                        </>
                 }
+
+
 
                 <ToastContainer />
             </div>

@@ -20,12 +20,12 @@ const SingleMemberDetails = () => {
         getAllMembers()
     }, []);
 
-    useEffect(() => {
-        console.log("LOad The user: ", singleUser, id);
-    }, [singleUser]);
+    // useEffect(() => {
+    //     console.log("LOad The user: ", singleUser, id);
+    // }, [singleUser]);
 
     const getAllMembers = async () => {
-
+        setLoading(true);
         try {
             const response = await fetch(`${Base_Url}/api/member/single/?user_id=${id}`, {
                 method: 'get',
@@ -39,7 +39,7 @@ const SingleMemberDetails = () => {
             const result = await response.json();
             if (result.success) {
                 setSingleUser(result.user_data)
-                console.log("User Set Success");
+                // console.log("User Set Success");
 
             }
             else if (result.status === 401) {
@@ -48,7 +48,7 @@ const SingleMemberDetails = () => {
                 window.location.reload();
             } else {
 
-                console.log("--------->False Response");
+                // console.log("--------->False Response");
                 toast.error(result.message);
             }
         } catch (error) {
