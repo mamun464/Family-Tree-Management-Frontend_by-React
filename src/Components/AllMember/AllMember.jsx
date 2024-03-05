@@ -213,7 +213,7 @@ const AllMember = () => {
                                             ></SingleMember>)
                                         }
                                     </div>
-                                    <div className="p-8 pb-4  flex justify-between">
+                                    <div className={`p-8 pb-4 flex justify-between ${display.length > 8 ? '' : 'hidden'}`}>
                                         <button className="btn btn-warning w-24"
                                             onClick={handlePrevious}
                                         >Previous</button>
