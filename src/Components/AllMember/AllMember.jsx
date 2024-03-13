@@ -134,6 +134,8 @@ const AllMember = () => {
 
                 </div>
 
+                { loading && <Loader></Loader> } 
+
 
                 <div className="hero">
                     <div className="hero-content text-center text-neutral-content relative z-10 top-[90%]">

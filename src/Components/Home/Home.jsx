@@ -14,7 +14,6 @@ const Home = () => {
     return (
         <>
             <Nav_2 />
-
             <h1 className="text-5xl">Home Page: {user.full_name}</h1>
         </>
     );

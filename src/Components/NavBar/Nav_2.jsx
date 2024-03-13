@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 // import { AuthContext } from "../../Provider/AuthProvider";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -9,9 +9,9 @@ import { IoSettingsOutline } from "react-icons/io5";
 // eslint-disable-next-line react/prop-types
 const Nav_2 = ({ bgColor = "#fff", home = false }) => {
     const [open, setOpen] = useState(false);
-    const [spaceOnLeft, setSpaceOnLeft] = useState(false);
     const [user, setUser] = useState("");
     const [isRegistered, setIsRegistered] = useState(false);
+    const [isOtherPage, setIsOtherPage] = useState(false);
     const location = useLocation();
     
 
@@ -19,27 +19,17 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
         document.body.style.backgroundColor = bgColor;
     }, [bgColor]);
 
-    useEffect(() => {
-        const parentElement = document.getElementById('parentElementId');
-        if (parentElement) {
-            const parentRect = parentElement.getBoundingClientRect();
-            setSpaceOnLeft(parentRect.left > 300);
-        }
-
-        if (location.pathname === "/register") {
-            setIsRegistered(true);
-        }
-
-        const storedUser = localStorage.getItem('user');
-        setUser(JSON.parse(storedUser));
-    }, [location.pathname]);
 
 
     
     useEffect(() => {
-        if (location.pathname == "/register") {
+        if (location.pathname == "/register" ) {
             setIsRegistered(true);
         }
+        if (location.pathname != "") {
+            setIsOtherPage(true);
+        }
+        
         const storedUser = localStorage.getItem('user');
         setUser(JSON.parse(storedUser));
 
@@ -90,7 +80,7 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
                         user ? <>
                             {/* Please add here that component */}
 
-                            <div id="parentElementId" className="relative border">
+                            <div className="relative border">
                                 <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setOpen(!open)}>
                                     <div className="w-12 h-12 rounded-full overflow-hidden border-2 dark:border-white border-gray-900 transition duration-300 ease-in-out transform hover:scale-105">
                                         {user?.user_profile_img ?
@@ -106,7 +96,7 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
                                     </div>
                                 </div>
                                 {open && (
-                                    <div className={`absolute ${spaceOnLeft ? '-left-56' : 'right-0'} w-60 px-5 py-3 min-xl:left-0 dark:bg-gray-800 bg-white rounded-lg shadow border dark:border-transparent mt-2 z-50`}>
+                                    <div className={`absolute -left-56 w-60 px-5 py-3  dark:bg-gray-800 bg-white rounded-lg shadow border dark:border-transparent mt-2 z-50`}>
                                         <ul className="menu menu-sm dropdown-content pl-0 space-y-3 dark:text-white">
                                             <li className="font-medium">
                                                 <Link to={"/my-profile"} className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700">
@@ -137,7 +127,21 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
                                 )}
                             </div>
                         </>
-                            : isRegistered ? <Link
+                            : isOtherPage ? <Link
+                            to={"/login"}
+                            className="btn bg-[#F9A51A] w-24 h-11 rounded-md text-black font-medium border-0 outline-none flex items-center justify-center"
+                            style={{ color: "black", transition: "color 0.3s" }}
+                            onMouseEnter={(e) => { e.target.style.backgroundColor = '#D48700'; e.target.style.color = '#fff'; }}
+                            onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
+                        >
+                            Login
+                        </Link>
+                            
+                            
+                            :
+                            
+                            
+                            isRegistered ? <Link
                                 to={"/login"}
                                 className="btn bg-[#F9A51A] w-24 h-11 rounded-md text-black font-medium border-0 outline-none flex items-center justify-center"
                                 style={{ color: "black", transition: "color 0.3s" }}
