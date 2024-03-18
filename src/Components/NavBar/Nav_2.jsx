@@ -80,7 +80,7 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
                         user ? <>
                             {/* Please add here that component */}
 
-                            <div className="relative border">
+                            <div className="relative ">
                                 <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setOpen(!open)}>
                                     <div className="w-12 h-12 rounded-full overflow-hidden border-2 dark:border-white border-gray-900 transition duration-300 ease-in-out transform hover:scale-105">
                                         {user?.user_profile_img ?
@@ -135,12 +135,8 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
                             onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
                         >
                             Login
-                        </Link>
-                            
-                            
+                        </Link> 
                             :
-                            
-                            
                             isRegistered ? <Link
                                 to={"/login"}
                                 className="btn bg-[#F9A51A] w-24 h-11 rounded-md text-black font-medium border-0 outline-none flex items-center justify-center"
