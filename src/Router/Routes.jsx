@@ -13,6 +13,7 @@ import AllMember from "../Components/AllMember/AllMember";
 import SingleMemberDetails from "../Components/AllMember/SingleMemberDetails";
 import AddRelation from "../Components/Relationship/AddRelation";
 import Contact from "../Components/Contact/Contact";
+import ForgetPassword from "../Components/ForgetPassword/ForgetPassword";
 
 
 
@@ -70,6 +71,11 @@ const Routes = createBrowserRouter([
 
             },
 
+            {
+                path: "forgetPass/",
+                element: <ForgetPassword></ForgetPassword>
+
+            },
 
 
         ]

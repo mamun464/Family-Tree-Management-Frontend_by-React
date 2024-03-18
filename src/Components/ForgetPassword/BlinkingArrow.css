@@ -1,0 +1,19 @@
+@keyframes pulse {
+  0% {
+    color: red; /* Red color */
+    opacity: 1; /* Fully visible */
+  }
+  50% {
+    color: black; /* Black color */
+    opacity: 0.5; /* Half transparent */
+  }
+  100% {
+    color: red; /* Red color */
+    opacity: 1; /* Fully visible */
+  }
+}
+
+/* Apply the animation to an element */
+.element {
+  animation: pulse 2s infinite; /* Adjust duration as needed */
+}

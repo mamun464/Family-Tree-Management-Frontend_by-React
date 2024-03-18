@@ -22,6 +22,7 @@ const AllMember = () => {
 
     useEffect(() => {
         getAllMembers()
+        
     }, []);
 
     useEffect(() => {
