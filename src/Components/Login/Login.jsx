@@ -117,13 +117,14 @@ const Login = () => {
                             </div>
 
                             <div className="text-[#F9A51A] font-medium underline">
-                                <Link to={"forgetPass/"}>
-                                    <a href=""
-                                        style={{ transition: "font-size 0.3s, color 0.3s", fontSize: "1rem" }}
-                                        onMouseEnter={(e) => { e.target.style.fontSize = '1rem'; e.target.style.color = '#D48700'; }}
-                                        onMouseLeave={(e) => { e.target.style.fontSize = '0.95rem'; e.target.style.color = '#F9A51A'; }}
-                                    >Forgot Password</a>
-                                </Link>
+                            <Link to={"/forgetPass"}>
+                                <span
+                                    style={{ transition: "font-size 0.3s, color 0.3s", fontSize: "1rem" }}
+                                    onMouseEnter={(e) => { e.target.style.fontSize = '1rem'; e.target.style.color = '#D48700'; }}
+                                    onMouseLeave={(e) => { e.target.style.fontSize = '0.95rem'; e.target.style.color = '#F9A51A'; }}
+                                >Forgot Password</span>
+                            </Link>
+
                             </div>
                         </div>
 
