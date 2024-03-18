@@ -509,9 +509,34 @@ const MemberProfileEdit = () => {
                                         </div>
                                     </div>
                                 </div>
-
-
-
+                                
+                                <hr className="mt-6 border-b-1 border-[#cbd5e1]" />
+                                <h6 className="text-[#94a3b8] text-sm mt-3 mb-6 font-bold uppercase">
+                                Password Upadation
+                                </h6>
+                                <div className="flex flex-wrap">
+                                    <div className="w-full lg:w-12/12 px-4">
+                                        <div className="relative w-full mb-3">
+                                            <label className="block uppercase text-[#475569] text-xs font-bold mb-2" >
+                                                New Password
+                                            </label>
+                                            <input type="password" className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" name='PresentAdd'
+                                              
+                                                // onChange={(event) => setCurrent_address(event.target.value)}
+                                            />
+                                        </div>
+                                        <div className="relative w-full mb-3">
+                                            <label className="block uppercase text-[#475569] text-xs font-bold mb-2" >
+                                            Confirm New Password
+                                            </label>
+                                            <input type="password" className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" name='PermanentAdd'
+                                                
+                                                // onChange={(event) => setPermanent_address(event.target.value)} 
+                                                />
+                                        </div>
+                                    </div>
+                                   
+                                </div>
 
                                 <div className='flex justify-end mt-10'>
                                     <Link type='submit'
@@ -525,6 +550,8 @@ const MemberProfileEdit = () => {
                                         Update Data
                                     </Link>
                                 </div>
+
+
                             </form>
 
                         </div>
