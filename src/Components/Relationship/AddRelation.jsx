@@ -160,15 +160,17 @@ const AddRelation = () => {
                         <Loader></Loader>
                     )} */}
                     <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-[#f1f5f9] border-0">
-                        <div className="absolute flex bg-white bg-opacity-0 gap-5 px-4 py-4 mt-8 mb-4">
-                            <button className="text-xl w- font-medium text-white py-2 px-6 bg-[#D72050]">Note</button>
+                    <div className="absolute flex flex-row bg-white bg-opacity-0 gap-5 px-4 py-4 mt-8 mb-4">
+                        <button className="hidden min-xl:inline text-xl font-medium text-white py-2 px-6 bg-[#D72050] ">Note</button>
 
-                            <Marquee className="text-[#403F3F] text-[18px] font-semibold" pauseOnHover={true}>
+                        <Marquee className="text-[#403F3F] text-[18px] font-semibold" pauseOnHover={true}>
+                            <div className="flex flex-wrap justify-center">
                                 <Link className='mr-6'><span className='text-red-600 font-semibold'>Rule-1: </span>Select the parent through whom you are connected to the Sonatundi ancestry.</Link>
                                 <Link className='mr-6'><span className='text-red-600 font-semibold'>Rule-2: </span>If your Parent Account is not found in the list then please REGISTER first by your parents.</Link>
+                            </div>
+                        </Marquee>
+                </div>
 
-                            </Marquee>
-                        </div>
                         <div className="rounded-t bg-red-50 mb-0  pt-0">
                             <div className=" bg-[#f1f5f9] rounded-lg text-gray-900">
                                 <div className="rounded-t-lg h-32 overflow-hidden">
