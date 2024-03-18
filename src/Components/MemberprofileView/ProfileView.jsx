@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import Loader from '../Loader/Loader';
 import Ancestors from '../Relationship/RelationTable/Ancestors/Ancestors';
 import { FaAngleDoubleDown } from "react-icons/fa";
+import './BlinkingArrow.css';
 
 const ProfileView = ({ user, loading }) => {
 
@@ -109,7 +110,9 @@ const ProfileView = ({ user, loading }) => {
                         </div>
                         <h6 className="flex flex-col text-[#94a3b8] text-center  mt-1 font-bold uppercase">
                             I am descended from the following ancestors
-                            <span className='flex justify-center text-3xl mt-1'><FaAngleDoubleDown /></span>
+                            <span className='flex justify-center text-3xl mt-1 pulse'
+                            
+                            ><FaAngleDoubleDown /></span>
                         </h6>
                         <Ancestors
                             myProfile={user}

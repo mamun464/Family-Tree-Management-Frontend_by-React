@@ -1,0 +1,17 @@
+@keyframes pulse {
+    50% {
+        color: red; /* Back to initial color */
+      }
+ 
+    150% {
+      color: green; /* Alternate color 2 */
+    }
+
+   
+  }
+  
+  
+  .pulse {
+    animation: pulse 1.3s infinite;
+  }
+  
