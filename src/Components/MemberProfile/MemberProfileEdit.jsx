@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useContext, useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 import Nav_2 from '../NavBar/Nav_2';
 import { FaUpload } from "react-icons/fa6";
 import { FaFacebook } from "react-icons/fa";
@@ -13,6 +14,7 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import { getProfileLocalStorage, getTokenFromLocalStorage } from '../../Utils/Utils';
 import Loader from '../Loader/Loader';
 import './loading.css';
+
 
 
 const MemberProfileEdit = () => {
@@ -52,11 +54,14 @@ const MemberProfileEdit = () => {
     const [date_of_death, setDate_of_death] = useState(user?.date_of_death);
     const [current_address, setCurrent_address] = useState(user?.current_address);
     const [permanent_address, setPermanent_address] = useState(user?.permanent_address);
+    const [password, setpassword] = useState("");
+    const [password2, setpassword2] = useState("");
     const [facebook, setFacebook] = useState(user?.facebook);
     const [linkedin, setLinkedin] = useState(user?.linkedin);
     const [instagram, setInstagram] = useState(user?.instagram);
     const [is_alive, setIs_alive] = useState(user?.is_alive);
     const [is_married, setIs_married] = useState(user?.is_married);
+    const [is_change_pass, setIs_change_pass] = useState(false);
     const [user_profile_img, setUser_profile_img] = useState(user?.user_profile_img);
     const fileInputRef = useRef(null);
 
@@ -111,8 +116,120 @@ const MemberProfileEdit = () => {
             setLoading(false);
         }
     }
-    const UpdateProfileData = async (token) => {
 
+    
+
+    // const UpdatePassword = async (token) => {
+    //     try {
+
+    //         setLoading(true);
+    //         const requestBody = {
+    //             password,
+    //             password2
+
+    //         };
+    //         console.log("In change funtion--------->");
+    //         const response = await fetch(`${Base_Url}/api/member/changepassword/`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': ` Bearer ${token}`,
+    //             },
+    //             body: JSON.stringify(requestBody),
+    //         });
+
+
+    //         console.log("response get--------->");
+    //         const result = await response.json();
+    //         if (result.success) {
+    //             console.log(" get 200--------->");
+
+    //             toast.success(result.message);
+    //             // setUser(result.user_data)
+    //             // const { access, refresh } = result.token;
+    //             // localStorage.setItem('access_token', access);
+    //             // localStorage.setItem('refresh_token', refresh);
+    //             // localStorage.setItem('user', JSON.stringify(result.user_data));
+
+
+
+    //             setTimeout(() => {
+    //                 navigate(location?.state ? location.state : '/'); // Assuming 'Home' is your home screen name
+    //             }, 900);
+
+
+    //         }
+    //         else if (result.status === 401) {
+
+    //             localStorage.clear();
+    //             window.location.reload();
+    //         }
+    //         else {
+    //             toast.error(result.message);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //         toast.error(` fetching data Failed! ${error.message}`);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+        
+    // }
+    
+
+    const UpdatePassword = async (token) => {
+        try {
+            setLoading(true);
+            const requestBody = {
+                password,
+                password2
+            };
+    
+            
+    
+            const response = await axios.post(`${Base_Url}/api/member/changepassword/`, requestBody, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+    
+            
+    
+            if (response.status === 200) {
+                const result = response.data;
+                setIs_change_pass(false)
+                if (result.success) {
+                    toast.success(result.message);
+                    
+                } else if (result.status === 401) {
+                    localStorage.clear();
+                    window.location.reload();
+                } else {
+                    toast.error(result.message);
+                }
+            } else {
+                // Handle non-200 response
+                const errorResult = response.data;
+                console.error('Non-200 response:', errorResult);
+                toast.error(`Action Failed! ${errorResult.message}`);
+            }
+        } catch (error) {
+            if (error.response.status === 400) {
+                console.error('Bad Request:', error.response.data);
+                toast.error(`${error.response.data.message}`);
+            } else {
+                console.error('Error fetching data:', error);
+                toast.error(`Action Failed! ${error.message}`);
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
+    
+    
+
+    const UpdateProfileData = async (token) => {
         try {
 
             setLoading(true);
@@ -176,6 +293,7 @@ const MemberProfileEdit = () => {
         } finally {
             setLoading(false);
         }
+        
     }
 
 
@@ -211,14 +329,54 @@ const MemberProfileEdit = () => {
 
     }
 
-
+    const passwordsMatch = (password, password2) => {
+        // Check if either field is empty
+        if ((!password && password2) || (password && !password2)) {
+            return false; // If one is empty and the other is not, they don't match
+        }
+        if ((password === "") || (password2 === "")) {
+            return false; // If one is empty and the other is not, they don't match
+        }
+    
+        // Check if passwords match
+        if (password === password2) {
+            return true;
+        }
+    
+        return false;
+    };
 
     const handleClick = () => {
         fileInputRef.current.click();
     };
 
+    const handleUpdatePass = (e) => {
+        e.preventDefault();
+        const tokenNow = getTokenFromLocalStorage();
+        
+        if (tokenNow) {
+            // console.log(token);
+            UpdatePassword(tokenNow)
+                .then(response => {
+
+                    console.log("Response:", response);
+
+                })
+                .catch(error => {
+                    toast.error(`Failed to update Password. ${error}`);
+                    console.error("Error updating Password:", error);
+                    toast.error("Failed to update Password. Please try again later.");
+                    
+                });
+
+
+        } else {
+            toast.warn("You have to login first");
+        }
+    };
     const handleUpdateData = () => {
         const tokenNow = getTokenFromLocalStorage();
+        
         if (tokenNow) {
             // console.log(token);
             UpdateProfileData(tokenNow)
@@ -514,29 +672,54 @@ const MemberProfileEdit = () => {
                                 <h6 className="text-[#94a3b8] text-sm mt-3 mb-6 font-bold uppercase">
                                 Password Upadation
                                 </h6>
-                                <div className="flex flex-wrap">
-                                    <div className="w-full lg:w-12/12 px-4">
-                                        <div className="relative w-full mb-3">
-                                            <label className="block uppercase text-[#475569] text-xs font-bold mb-2" >
-                                                New Password
+                                <div className="flex ">
+                                            <label className="cursor-pointer label ">
+                                                <input type="checkbox" className="checkbox checkbox-warning mr-2" name='is_change_pass'
+                                                    checked={is_change_pass}
+                                                    onChange={(e) => setIs_change_pass(e.target.checked)} />
+                                                <span className="block uppercase text-[#475569] text-xs font-bold  ">Want to Change Password ?</span>
+
                                             </label>
-                                            <input type="password" className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" name='PresentAdd'
-                                              
-                                                // onChange={(event) => setCurrent_address(event.target.value)}
-                                            />
                                         </div>
-                                        <div className="relative w-full mb-3">
-                                            <label className="block uppercase text-[#475569] text-xs font-bold mb-2" >
-                                            Confirm New Password
-                                            </label>
-                                            <input type="password" className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" name='PermanentAdd'
-                                                
-                                                // onChange={(event) => setPermanent_address(event.target.value)} 
-                                                />
-                                        </div>
-                                    </div>
-                                   
+                                        <div className={`flex flex-wrap ${is_change_pass ? '' : 'hidden'}`}>
+                                            <div className="w-full lg:w-12/12 px-4">
+                                                <div className="relative w-full mb-3">
+                                                    <label className="block uppercase text-[#475569] text-xs font-bold mb-2" >
+                                                        New Password
+                                                    </label>
+                                                    <input 
+                                                        type="password" 
+                                                        className="text-2xl border-0  px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" 
+                                                        name='password'
+                                                        required
+                                                        onChange={(event) => setpassword(event.target.value)}
+                                                    />
+                                                </div>
+                                                <div className="relative w-full mb-3">
+                                                    <label className="block uppercase text-[#475569] text-xs font-bold mb-2" >
+                                                        Confirm New Password
+                                                    </label>
+                                                    <input 
+                                                        type="password" 
+                                                        className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" 
+                                                        name='password2'
+                                                        required
+                                                        onChange={(event) => setpassword2(event.target.value)} 
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className='flex justify-end mt-10'>
+                                            <Link
+                                                type='submit'
+                                                onClick={handleUpdatePass}
+                                               className='text-lg px-auto rounded-md py-2 px-4 text-white font-semibold bg-[#FF444A] hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-300 ease-in-out active:bg-[#FF2227]'
+                                            >
+                                                Change Password
+                                            </Link>
+
                                 </div>
+                                        </div>
+
 
                                 <div className='flex justify-end mt-10'>
                                     <Link type='submit'
