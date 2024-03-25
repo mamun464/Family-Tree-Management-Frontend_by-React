@@ -7,11 +7,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "../../Provider/AuthProvider";
 import { Base_Url } from "../../../public/utils";
 import Loader from "../Loader/Loader";
+import { IoEyeOutline } from "react-icons/io5";
+import { IoEyeOffOutline } from "react-icons/io5";
 
 
 const Registration = () => {
 
     const { setUser, loading, setLoading } = useContext(AuthContext)
+    const [showPassword, setShowPassword] = useState(false)
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -22,6 +25,12 @@ const Registration = () => {
 
     const handleInputChange = () => {
         setDateChanged(true);
+    };
+
+    const togglePasswordVisibility = (e) => {
+        e.preventDefault();
+        setShowPassword(!showPassword); 
+       
     };
 
     const handlephoneChange = (e) => {
@@ -142,23 +151,27 @@ const Registration = () => {
                                 onChange={handleInputChange}
                             />
                         </div>
-                        <div className="mb-6">
+                        <div className="mb-6 relative">
                             <input
-                                type="password"
-                                className="border-b-2 border-[#C5C5C5] font-medium focus:border-[#F9A51A] w-full py-2 px-3 pl-0 text-black focus:outline-none"
-                                placeholder="Confirm Password"
-                                required
-                                name="password"
-                            />
-                        </div>
-                        <div className="mb-6">
-                            <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 className="border-b-2 border-[#C5C5C5] font-medium focus:border-[#F9A51A] w-full py-2 px-3 pl-0 text-black focus:outline-none"
                                 placeholder="Password"
                                 required
+                                name="password"
+                            />
+                            <button className="absolute right-0 top-0 mt-2.5 mr-3 text-2xl text-gray-600 cursor-pointer" onClick={togglePasswordVisibility}>
+                            {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                            </button>
+                        </div>
+                        <div className="mb-6">
+                            <input
+                               type={showPassword ? "text" : "password"}
+                                className="border-b-2 border-[#C5C5C5] font-medium focus:border-[#F9A51A] w-full py-2 px-3 pl-0 text-black focus:outline-none"
+                                placeholder="Confirm Password"
+                                required
                                 name="confirmPassword"
                             />
+                            
                         </div>
 
                         <button type="submit" className="bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2]"

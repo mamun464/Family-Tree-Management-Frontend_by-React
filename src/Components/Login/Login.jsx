@@ -3,12 +3,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Nav_2 from "../NavBar/Nav_2";
 import { Base_Url } from "../../../public/utils";
-import { useContext, useEffect, } from 'react'; // Import useState hook
+import { useContext, useEffect, useState, } from 'react'; // Import useState hook
 import Loader from "../Loader/Loader";
 import { AuthContext } from "../../Provider/AuthProvider";
+import { IoEyeOutline } from "react-icons/io5";
+import { IoEyeOffOutline } from "react-icons/io5";
 
 const Login = () => {
     const { setUser, setLoading, loading } = useContext(AuthContext)
+    const [showPassword, setShowPassword] = useState(false)
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -19,6 +22,12 @@ const Login = () => {
             navigate(location?.state ? location.state : '/');
         }
     }, []);
+
+    const togglePasswordVisibility = (e) => {
+        e.preventDefault();
+        setShowPassword(!showPassword); 
+       
+    };
 
     const handlephoneChange = (e) => {
         const phoneNumberInput = e.target.value;
@@ -99,16 +108,20 @@ const Login = () => {
                                 onInput={handlephoneChange}
                             />
                         </div>
-                        <div className="mb-6">
+                        <div className="mb-6 relative">
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 id="password"
                                 name="password"
                                 className="border-b-2 border-[#C5C5C5] font-medium focus:border-[#F9A51A] w-full py-2 px-3 mt-1 pl-0 text-black focus:outline-none"
                                 placeholder="Password"
                                 required
                             />
+                            <button className="absolute right-0 top-0 mt-2.5 mr-3 text-2xl text-gray-600 cursor-pointer" onClick={togglePasswordVisibility}>
+                            {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                            </button>
                         </div>
+
 
                         <div className="flex flex-col md:flex-row justify-between items-center md:items-start md:mt-4 mb-8">
                             <div className="flex items-center mb-4 md:mb-0">
