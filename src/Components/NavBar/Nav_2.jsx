@@ -13,7 +13,7 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
     const [isRegistered, setIsRegistered] = useState(false);
     const [isOtherPage, setIsOtherPage] = useState(false);
     const location = useLocation();
-    
+
 
     useEffect(() => {
         document.body.style.backgroundColor = bgColor;
@@ -21,15 +21,15 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
 
 
 
-    
+
     useEffect(() => {
-        if (location.pathname == "/register" ) {
+        if (location.pathname == "/register") {
             setIsRegistered(true);
         }
         if (location.pathname != "") {
             setIsOtherPage(true);
         }
-        
+
         const storedUser = localStorage.getItem('user');
         setUser(JSON.parse(storedUser));
 
@@ -45,7 +45,7 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
         <li><NavLink to={"/contact"}>Contact</NavLink></li>
     </>
 
-    
+
     return (
         <>
             <div className={`navbar bg-white bg-opacity-0 max-w-7xl mx-auto relative `}
@@ -128,16 +128,6 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
                             </div>
                         </>
                             : isOtherPage ? <Link
-                            to={"/login"}
-                            className="btn bg-[#F9A51A] w-24 h-11 rounded-md text-black font-medium border-0 outline-none flex items-center justify-center"
-                            style={{ color: "black", transition: "color 0.3s" }}
-                            onMouseEnter={(e) => { e.target.style.backgroundColor = '#D48700'; e.target.style.color = '#fff'; }}
-                            onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
-                        >
-                            Login
-                        </Link> 
-                            :
-                            isRegistered ? <Link
                                 to={"/login"}
                                 className="btn bg-[#F9A51A] w-24 h-11 rounded-md text-black font-medium border-0 outline-none flex items-center justify-center"
                                 style={{ color: "black", transition: "color 0.3s" }}
@@ -146,15 +136,25 @@ const Nav_2 = ({ bgColor = "#fff", home = false }) => {
                             >
                                 Login
                             </Link>
-                                : <Link
-                                    to={"/register"}
+                                :
+                                isRegistered ? <Link
+                                    to={"/login"}
                                     className="btn bg-[#F9A51A] w-24 h-11 rounded-md text-black font-medium border-0 outline-none flex items-center justify-center"
                                     style={{ color: "black", transition: "color 0.3s" }}
                                     onMouseEnter={(e) => { e.target.style.backgroundColor = '#D48700'; e.target.style.color = '#fff'; }}
                                     onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
                                 >
-                                    Sign Up
+                                    Login
                                 </Link>
+                                    : <Link
+                                        to={"/register"}
+                                        className="btn bg-[#F9A51A] w-24 h-11 rounded-md text-black font-medium border-0 outline-none flex items-center justify-center"
+                                        style={{ color: "black", transition: "color 0.3s" }}
+                                        onMouseEnter={(e) => { e.target.style.backgroundColor = '#D48700'; e.target.style.color = '#fff'; }}
+                                        onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
+                                    >
+                                        Sign Up
+                                    </Link>
                     }
                 </div>
 
