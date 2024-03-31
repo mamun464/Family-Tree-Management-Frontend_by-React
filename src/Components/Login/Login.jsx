@@ -8,12 +8,15 @@ import Loader from "../Loader/Loader";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
+import './Login.css';
+import PasswordResetEmailModal from "../ForgetPassword/PasswordResetEmailModal";
 
 const Login = () => {
     const { setUser, setLoading, loading } = useContext(AuthContext)
     const [showPassword, setShowPassword] = useState(false)
     const location = useLocation();
     const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         // Check if user is already logged in
@@ -97,7 +100,7 @@ const Login = () => {
                 <div className="w-full border border-[#ABABAB] rounded-lg p-8 font-montserrat mt-10">
                     <h1 className="text-black text-2xl font-bold mb-6">Login</h1>
 
-                    <form onSubmit={handleLogin}>
+                    <form className="login-form"  onSubmit={handleLogin}>
                         <div className="mb-6">
                             <input
                                 type="tel"
@@ -130,13 +133,19 @@ const Login = () => {
                             </div>
 
                             <div className="text-[#F9A51A] font-medium underline">
-                            <Link to={"/forgetPass"}>
-                                <span
-                                    style={{ transition: "font-size 0.3s, color 0.3s", fontSize: "1rem" }}
-                                    onMouseEnter={(e) => { e.target.style.fontSize = '1rem'; e.target.style.color = '#D48700'; }}
-                                    onMouseLeave={(e) => { e.target.style.fontSize = '0.95rem'; e.target.style.color = '#F9A51A'; }}
-                                >Forgot Password</span>
-                            </Link>
+                            <Link>
+                            <span
+                                style={{ transition: "font-size 0.3s, color 0.3s", fontSize: "1rem" }}
+                                onMouseEnter={(e) => { e.target.style.fontSize = '1rem'; e.target.style.color = '#D48700'; }}
+                                onMouseLeave={(e) => { e.target.style.fontSize = '0.95rem'; e.target.style.color = '#F9A51A'; }}
+                                onClick={() => setShowModal(true)}
+                            >
+                                Forgot Password?
+                            </span>
+                             </Link>
+
+                            <PasswordResetEmailModal showModal={showModal} setShowModal={setShowModal} />
+        
 
                             </div>
                         </div>

@@ -1,0 +1,19 @@
+/* Override Flowbite styles */
+.login-form input {
+    border-bottom-width: 2px;
+    border-bottom-color: #C5C5C5;
+    font-weight: normal;
+    width: 100%;
+    padding-top: 0.5rem; /* Equivalent to py-2 */
+    padding-bottom: 0.5rem; /* Equivalent to py-2 */
+    padding-left: 0.75rem; /* Equivalent to px-3 */
+    padding-right: 0.75rem; /* Equivalent to px-3 */
+    padding-left: 0; /* Equivalent to pl-0 */
+    color: #000000; /* Equivalent to text-black */
+    outline: none; /* Equivalent to focus:outline-none */
+}
+
+/* Override Focus Styles */
+.login-form input:focus {
+    border-color: #F9A51A; /* Equivalent to focus:border-[#F9A51A] */
+}
