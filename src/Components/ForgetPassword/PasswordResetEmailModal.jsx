@@ -5,16 +5,19 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import emailjs from '@emailjs/browser';
+import './btn.css';
 
 
 
 const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
-    // const { setLoading, loading } = useContext(AuthContext)
+    const { setLoading, loading } = useContext(AuthContext)
     const form = useRef();
-    const [Loading, setLoading] = useState({});
+    // const [Loading, setLoading] = useState();
     const [email, setEmail] = useState('');
     const [userId, setUserId] = useState('');
     const [token, setToken] = useState('');
+    const [userName, setUserName] = useState('');
+    const [isChecking, setCheaking] = useState(false);
     useEffect(() => {
         if (showModal) {
             document.getElementById('my_modal_3').showModal();
@@ -23,21 +26,30 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
         }
     }, [showModal]);
 
+    const close=()=>{
+        setShowModal(false)
+        setCheaking(false)
+        setEmail("");
+        setToken("");
+        setUserId("");
+        setUserName("");
+    }
+
 
     const sendEmail = (e) => {
         e.preventDefault();
 
         // Access form fields
-        //    const name = form.current.client_name.value;
-        //    const email = form.current.client_email.value;
-        //    const message = form.current.client_message.value;
+      
 
         // Validate message
-        //    if (message.trim() === "" || name.trim() === "" || email.trim() === "") {
-        //      toast.error(`Must be fill up the form!`);
-        //      return;
-        //    }
+           if (email.trim() === "") {
+             toast.error(`Must be fill up the form!`);
+             return;
+           }
 
+        // print(form.current)
+        setLoading(true);
         emailjs
             .sendForm(
                 "service_vjk0w5d",
@@ -49,14 +61,24 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
                     // toast.success("Message successfully delivered to Mamun!")
 
                     console.log('SUCCESS!');
-                    e.target.reset();
+                    
+                    setShowModal(false)
+                    setCheaking(false)
+                    setEmail("");
+                    setToken("");
+                    setUserId("");
+                    setUserName("");
+                   
 
                 },
                 (error) => {
                     toast.error(`FAILED: ${error.text}`)
                     console.log('FAILED...', error.text);
                 },
-            );
+            ).finally(() => {
+                setLoading(false);
+                 // This block will be executed regardless of success or failure
+            });
     };
 
     const handleEmailsent = async (e) => {
@@ -84,19 +106,20 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
                 console.log(result);
                 const EncodedUserId = result?.EncodedUserId
                 const token = result?.token
+                const user_name = result?.user_name
                 setToken(token)
                 setUserId(EncodedUserId)
-                console.log(EncodedUserId, token);
-                // await sendEmail(EncodedUserId, token);
-                // await sendEmail("manager.meal.authority@gmail.com");
+                setUserName(user_name)
+                console.log(user_name,EncodedUserId, token);
+                setCheaking(true)
 
             } else {
-                // toast.error(result.message);
+                // toast.error(result?.message);
                 console.log(result?.message);
             }
         } catch (error) {
             console.error('Error fetching data:', error);
-            toast.error(`Mail sent Failed! ${error.message}`);
+            // toast.error(`Mail sent Failed! ${error.message}`);
         } finally {
             setLoading(false);
         }
@@ -110,14 +133,14 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
     return (
         <>
             {/* <button className="btn" onClick={()=>document.getElementById('my_modal_3').showModal()}>open modal</button> */}
-            <dialog id="my_modal_3" className="modal ">
-                <div className="modal-box dark:bg-gray-800">
+            <dialog id="my_modal_3" className="modal">
+                <div className="modal-box dark:bg-gray-800 pt-0">
                     <form method="dialog">
                         {/* if there is a button in form, it will close the modal */}
-                        <button onClick={() => setShowModal(false)} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white">✕</button>
+                        <button onClick={close} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white">✕</button>
                     </form>
 
-                    <main id="content" role="main" className="w-full max-w-md mx-auto p-6">
+                    <main id="content" role="main" className="w-full max-w-md mx-auto px-3">
                         <div className="mt-7 bg-white  rounded-xl dark:bg-gray-800 dark:border-gray-700">
                             <div className="p-4 sm:p-7">
                                 <div className="text-center">
@@ -130,39 +153,133 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
                                     </p>
                                 </div>
 
-                                <div className="mt-5">
-                                    <form ref={form} onSubmit={sendEmail}>
-                                        <div className="grid gap-y-4">
-                                            <div>
-                                                <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">Email address</label>
-                                                <div className="relative">
-                                                    <input onChange={(e) => setEmail((e.target.value).trim())} type="email" id="email" name="email" className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" required aria-describedby="email-error" />
-                                                    <input onChange={(e) => setUserId((e.target.value).trim())} placeholder='UserID' value={userId} type="text" id="user_id" name="user_id" className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" required aria-describedby="email-error" />
-                                                    <input onChange={(e) => setToken((e.target.value).trim())} placeholder='Token' value={token} type="text" id="token" name="token" className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" required aria-describedby="email-error" />
-                                                </div>
-                                                <p className="hidden text-xs text-red-600 mt-2" id="email-error">Please include a valid email address so we can get back to you</p>
-                                            </div>
+                                <form ref={form} onSubmit={sendEmail} className="contact__form">
+           
+
+            
+
+            <div className="mt-4">
+              <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">Email Address</label>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail((e.target.value).trim())}
+                className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                placeholder="Write your email"
+              />
+            </div>
+            <div className={`mt-4 ${isChecking ? '' : 'hidden'}`}>
+              <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">Member Name</label>
+              <input
+                type="text"
+                name="userName"
+                value={userName}
+                onChange={(e) => setUserName((e.target.value).trim())}
+                className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                placeholder="User Name"
+              />
+            </div>
+
+            <div className="mt-4 hidden">
+              <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">Encoded Id</label>
+              <input
+                type="password"
+                name="userId"
+                onChange={(e) => setUserId((e.target.value).trim())}
+                value={userId}
+                className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                placeholder="Secret"
+              />
+            </div>
+
+            <div className="mt-4 hidden">
+              <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">Token</label>
+              <input
+              type='password'
+                name="token"
+                rows="10"
+                cols="30"
+                value={token}
+                onChange={(e) => setToken((e.target.value).trim())}
+                className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                placeholder="Secret"
+              ></input>
+            </div>
 
 
-                                            <button type="submit" onClick={handleEmailsent} className="bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2]"
-                                                style={{ color: "black", transition: "color 0.3s" }}
-                                                onMouseEnter={(e) => { e.target.style.backgroundColor = '#D48700'; e.target.style.color = '#fff'; }}
-                                                onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
-                                            >Check Mail Address</button>
-                                            <button type="submit" onClick={sendEmail} className="bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2]"
-                                                style={{ color: "black", transition: "color 0.3s" }}
-                                                onMouseEnter={(e) => { e.target.style.backgroundColor = '#D48700'; e.target.style.color = '#fff'; }}
-                                                onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
-                                            >Recovery Email Sent</button>
-                                        </div>
-                                    </form>
-                                </div>
+            {isChecking ? (
+  <button
+    type="submit"
+    onClick={sendEmail}
+    className="mt-4 bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2]"
+    style={{ color: "black", transition: "color 0.3s" }}
+    onMouseEnter={(e) => {
+      e.target.style.backgroundColor = "#D48700";
+      e.target.style.color = "#fff";
+    }}
+    onMouseLeave={(e) => {
+      e.target.style.backgroundColor = "#F9A51A";
+      e.target.style.color = "#000";
+    }}
+  >
+    {
+        loading ? <span >
+        <i class="fa fa-spinner fa-spin"></i> Loading
+        </span>
+    : <span  className="bg-opacity-50">
+    Send Recovery Mail 
+    </span>
+
+
+    }
+    
+  </button>
+) : (
+  <button
+    type="submit"
+    onClick={handleEmailsent}
+    className=" mt-4 bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2]"
+    style={{ color: "black", transition: "color 0.3s" }}
+    onMouseEnter={(e) => {
+      e.target.style.backgroundColor = "#D48700";
+      e.target.style.color = "#fff";
+    }}
+    onMouseLeave={(e) => {
+      e.target.style.backgroundColor = "#F9A51A";
+      e.target.style.color = "#000";
+    }}
+  >
+    {
+        loading ? <span  >
+        <i class="fa fa-spinner fa-spin"></i> Loading
+        </span>
+    : <span 
+    onMouseEnter={(e) => {
+        e.target.style.backgroundColor = "#D48700";
+        e.target.style.color = "#fff";
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.backgroundColor = "#F9A51A";
+        e.target.style.color = "#000";
+      }}
+    className="bg-opacity-0">
+    Check Email Authenticity
+</span>
+
+
+    }
+
+  </button>
+)}
+            <ToastContainer />
+          </form>
                             </div>
                         </div>
 
 
                     </main>
-                    <ToastContainer />
+                    
                 </div>
             </dialog>
 
