@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import emailjs from '@emailjs/browser';
 import './btn.css';
+import Swal from 'sweetalert2'
 
 
 
@@ -57,23 +58,30 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
                 form.current,
                 "OwP7CB51fhyhnw13H")
             .then(
-                () => {
+                (res) => {
                     // toast.success("Message successfully delivered to Mamun!")
 
-                    console.log('SUCCESS!');
-                    
-                    setShowModal(false)
-                    setCheaking(false)
-                    setEmail("");
-                    setToken("");
-                    setUserId("");
-                    setUserName("");
+                    console.log('SUCCESS!',res);
+                    close()
+                    Swal.fire({
+                      icon: "success",
+                      title: `Success`,
+                      text: ` Mail Sent Successfully!`,
+                      // footer: '<a href="#">Why do I have this issue?</a>'
+                    });
                    
 
                 },
                 (error) => {
-                    toast.error(`FAILED: ${error.text}`)
+                    
                     console.log('FAILED...', error.text);
+                    close()
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: `${error.text}`,
+                      // footer: '<a href="#">Why do I have this issue?</a>'
+                    });
                 },
             ).finally(() => {
                 setLoading(false);
@@ -116,6 +124,13 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
             } else {
                 // toast.error(result?.message);
                 console.log(result?.message);
+                close()
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: `${result?.message}`,
+                  // footer: '<a href="#">Why do I have this issue?</a>'
+                });
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -147,7 +162,7 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
                                     <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">Forgot password?</h1>
                                     <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                                         Remember your password?
-                                        <a className="text-[#F9A51A] decoration-2 hover:underline font-medium" href="#">
+                                        <a className="text-[#F9A51A] decoration-2 hover:underline font-medium" href="/login">
                                             Login here
                                         </a>
                                     </p>
@@ -161,13 +176,16 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
             <div className="mt-4">
               <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">Email Address</label>
               <input
-                type="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail((e.target.value).trim())}
-                className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
-                placeholder="Write your email"
-              />
+    type="email"
+    name="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value.trim())}
+    className={`py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-[15px]  focus:border-blue-500 focus:ring-blue-500 shadow-sm ${
+        isChecking ? 'cursor-not-allowed' : ''
+    }`}
+    placeholder="Write your email"
+    // disabled={isChecking}
+/>
             </div>
             <div className={`mt-4 ${isChecking ? '' : 'hidden'}`}>
               <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">Member Name</label>
@@ -176,7 +194,8 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
                 name="userName"
                 value={userName}
                 onChange={(e) => setUserName((e.target.value).trim())}
-                className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                // disabled 
+                className="py-3 px-4 block w-full bg-white cursor-not-allowed border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
                 placeholder="User Name"
               />
             </div>
@@ -212,7 +231,8 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
   <button
     type="submit"
     onClick={sendEmail}
-    className="mt-4 bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2]"
+    disabled = {loading}
+    className= {`mt-4 bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2] ${loading ? 'cursor-progress' : ''}`}
     style={{ color: "black", transition: "color 0.3s" }}
     onMouseEnter={(e) => {
       e.target.style.backgroundColor = "#D48700";
@@ -227,9 +247,7 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
         loading ? <span >
         <i class="fa fa-spinner fa-spin"></i> Loading
         </span>
-    : <span  className="bg-opacity-50">
-    Send Recovery Mail 
-    </span>
+    : "Send Recovery Mail "
 
 
     }
@@ -239,7 +257,8 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
   <button
     type="submit"
     onClick={handleEmailsent}
-    className=" mt-4 bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2]"
+    disabled = {loading}
+    className= {`mt-4 bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2] ${loading ? 'cursor-progress' : ''}`}
     style={{ color: "black", transition: "color 0.3s" }}
     onMouseEnter={(e) => {
       e.target.style.backgroundColor = "#D48700";
@@ -252,20 +271,9 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
   >
     {
         loading ? <span  >
-        <i class="fa fa-spinner fa-spin"></i> Loading
+        <i class="fa fa-spinner fa-spin "></i> Loading
         </span>
-    : <span 
-    onMouseEnter={(e) => {
-        e.target.style.backgroundColor = "#D48700";
-        e.target.style.color = "#fff";
-      }}
-      onMouseLeave={(e) => {
-        e.target.style.backgroundColor = "#F9A51A";
-        e.target.style.color = "#000";
-      }}
-    className="bg-opacity-0">
-    Check Email Authenticity
-</span>
+    : "Check Email Authenticity"
 
 
     }
