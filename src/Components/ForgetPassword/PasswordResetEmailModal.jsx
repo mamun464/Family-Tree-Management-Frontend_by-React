@@ -18,6 +18,7 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
   const [userId, setUserId] = useState('');
   const [token, setToken] = useState('');
   const [userName, setUserName] = useState('');
+  const [setBaseUrl] = useState('');
   const [isChecking, setCheaking] = useState(false);
   useEffect(() => {
     if (showModal) {
@@ -188,9 +189,6 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
 
                 <form ref={form} onSubmit={sendEmail} className="contact__form">
 
-
-
-
                   <div className="mt-4">
                     <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">Email Address</label>
                     <input
@@ -238,6 +236,18 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
                   </div>
 
                   <div className="mt-4 hidden">
+                    <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">Base Url</label>
+                    <input
+                      type='text'
+                      name="BaseUrl"
+                      rows="10"
+                      cols="30"
+                      value={Base_Url}
+                      className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                      placeholder="Secret"
+                    ></input>
+                  </div>
+                  <div className="mt-4 hidden">
                     <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">Token</label>
                     <input
                       type='password'
@@ -271,7 +281,7 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
                     >
                       {
                         loading ? <span >
-                          <i class="fa fa-spinner fa-spin"></i> Loading
+                          <i className="fa fa-spinner fa-spin"></i> Loading
                         </span>
                           : "Send Recovery Mail "
 
@@ -297,7 +307,7 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
                     >
                       {
                         loading ? <span  >
-                          <i class="fa fa-spinner fa-spin "></i> Loading
+                          <i className="fa fa-spinner fa-spin "></i> Loading
                         </span>
                           : "Check Email Authenticity"
 
