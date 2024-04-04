@@ -72,7 +72,7 @@ const Routes = createBrowserRouter([
             },
 
             {
-                path: "forgetPass/",
+                path: ":userId/:token/",
                 element: <ForgetPassword></ForgetPassword>
 
             },
