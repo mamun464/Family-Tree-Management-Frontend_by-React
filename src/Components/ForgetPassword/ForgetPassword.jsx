@@ -16,7 +16,7 @@ const ForgetPassword = () => {
           <p className="text-center pulse font-medium">Till then, please contact the developer from the footer.</p>
         </div>
       </div>
-      <PasswordResetEmailModal></PasswordResetEmailModal>
+      
     </>
   );
 };
