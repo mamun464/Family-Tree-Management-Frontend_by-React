@@ -11,3 +11,32 @@
         opacity: 0;
     }
 }
+
+
+/* Default is one column */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+/* For screens 601px to 768px, display two columns */
+@media (min-width: 601px) and (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* For screens 769px to 1024px, display three columns */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* For screens larger than 1024px, display four columns */
+@media (min-width: 1025px) {
+    .grid-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

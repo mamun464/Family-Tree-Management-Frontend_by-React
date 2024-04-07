@@ -9,6 +9,7 @@ import Loader from "../Loader/Loader";
 import { LinearGradient } from 'react-text-gradients'
 import NoRecordFound from "../NoRecordFound/NoRecordFound";
 import Skeleton from "../Loader/Skeleton";
+import './blink.css';
 
 
 const AllMember = () => {
@@ -17,25 +18,54 @@ const AllMember = () => {
     const [display, setDisplay] = useState([])
     const [startIndex, setStartIndex] = useState(0);
     const [searchValue, setSearchValue] = useState("");
+    const [nextCount, setNextCount] = useState(0);
 
-    const usersPerPage = 8;
+    const [usersPerPage, setUsersPerPage] = useState(8);
 
     useEffect(() => {
         getAllMembers()
-        
+
     }, []);
+    useEffect(() => {
+        console.log(nextCount);
+
+    }, [nextCount]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            // Check if the screen size corresponds to md:grid-cols-3 (768px to 1023px)
+            if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+                setUsersPerPage(9);
+            } else {
+                setUsersPerPage(8);
+            }
+        };
+
+        // Add event listener for window resize
+        window.addEventListener('resize', handleResize);
+
+        // Initial check on component mount
+        handleResize();
+
+        // Cleanup on component unmount
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
 
     useEffect(() => {
         if (allUser.length > 0) {
             setDisplay(allUser.slice(startIndex, startIndex + usersPerPage));
         }
-    }, [allUser, startIndex]);
+    }, [allUser, startIndex, usersPerPage]);
+
+
+
 
     const handleNext = () => {
         if (startIndex + usersPerPage < allUser.length) {
             setStartIndex(startIndex + usersPerPage);
-            // console.log("Full size:", allUser.length);
-            // console.log(startIndex ,allUser.length);
+            setNextCount(nextCount + 1)
+
         }
 
     };
@@ -43,6 +73,7 @@ const AllMember = () => {
     const handlePrevious = () => {
         if (startIndex - usersPerPage >= 0) {
             setStartIndex(startIndex - usersPerPage);
+            setNextCount(nextCount - 1)
         }
     };
     const handleSearch = () => {
@@ -136,7 +167,7 @@ const AllMember = () => {
 
                 </div>
 
-                { loading && <Loader></Loader> } 
+                {loading && <Loader></Loader>}
 
 
                 <div className="hero">
@@ -208,7 +239,7 @@ const AllMember = () => {
                         : <>
                             {
                                 display.length > 0 ? <>
-                                    <div className='p-8 mt-10 max-w-7xl mx-auto  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'>
+                                    <div className='p-8 mt-10 max-w-7xl mx-auto grid gap-4 sm:grid-cols-2 md:grid-cols-3 desktop:grid-cols-4'>
 
                                         {
                                             display.map(user => <SingleMember
@@ -217,14 +248,28 @@ const AllMember = () => {
                                             ></SingleMember>)
                                         }
                                     </div>
-                                    <div className={`p-8 pb-4 flex justify-between ${display.length > 8 ? 'hidden' : ''}`}>
-                                        <button className="btn btn-warning w-24"
-                                            onClick={handlePrevious}
-                                        >Previous</button>
+                                    <div className={`p-8 pb-4 flex justify-between ${allUser.length > 8 ? '' : 'hidden'}`}>
+                                        <button
+                                            className={`btn btn-warning w-24 ${nextCount === 0 ? 'disabled' : ''}`}
+                                            onClick={nextCount === 0 ? null : handlePrevious}
+                                            style={{
+                                                cursor: nextCount === 0 ? 'not-allowed' : 'pointer',
+                                                backgroundColor: nextCount === 0 ? '#CCCCCC' : '' // Gray color when disabled
+                                            }}
+                                        >
+                                            Previous
+                                        </button>
 
-                                        <button className="btn btn-warning w-24"
-                                            onClick={handleNext}
-                                        >Next</button>
+                                        <button
+                                            className={`btn btn-warning w-24 ${display.length <= 8 ? 'disabled' : ''}`}
+                                            onClick={display.length < 8 ? null : handleNext}
+                                            style={{
+                                                cursor: display.length < 8 ? 'not-allowed' : 'pointer',
+                                                backgroundColor: display.length < 8 ? '#CCCCCC' : '' // Set gray color when disabled
+                                            }}
+                                        >
+                                            Next
+                                        </button>
                                     </div>
                                 </>
                                     : <NoRecordFound></NoRecordFound>
