@@ -14,9 +14,6 @@ import SingleMemberDetails from "../Components/AllMember/SingleMemberDetails";
 import AddRelation from "../Components/Relationship/AddRelation";
 import Contact from "../Components/Contact/Contact";
 import ForgetPassword from "../Components/ForgetPassword/ForgetPassword";
-
-
-
 const Routes = createBrowserRouter([
     {
         path: "/",
@@ -25,61 +22,48 @@ const Routes = createBrowserRouter([
             // {
             //     path: "/",
             //     element: <PrivateRoutes><Home></Home></PrivateRoutes>
-
             // },
             {
                 path: "/",
                 element: <AllMember></AllMember>
-
             },
             {
                 path: "login/",
                 element: <Login></Login>
-
             },
             {
                 path: "register/",
                 element: <Registration></Registration>
-
             },
             {
                 path: "contact/",
                 element: <Contact></Contact>
-
             },
             {
                 path: "profile-edit/",
                 element: <PrivateRoutes><MemberProfileEdit></MemberProfileEdit></PrivateRoutes>
-
             },
             {
                 path: "my-profile/",
                 element: <PrivateRoutes><OwnProfile></OwnProfile></PrivateRoutes>
-
             },
-
             {
                 path: "members/:id",
                 element: <PrivateRoutes><SingleMemberDetails></SingleMemberDetails></PrivateRoutes>
-
             },
             {
                 path: "connection/",
                 element: <PrivateRoutes>
                     <AddRelation></AddRelation>
                 </PrivateRoutes>
-
-            },
-
-            {
-                path: ":userId/:token/",
-                element: <ForgetPassword></ForgetPassword>
-
-            },
-
-
+            }
         ]
+    },
+    {
+        path: ":userId/:token/",
+        element: <ForgetPassword></ForgetPassword>
     }
-])
+]);
+
 
 export default Routes;
