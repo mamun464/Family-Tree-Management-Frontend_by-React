@@ -25,7 +25,7 @@ const ForgetPassword = () => {
         }}>
         <div className="absolute inset-0 bg-black opacity-75"></div>
 
-        <div className=" cover flex z-5  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className=" cover flex z-5  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pb-16">
           <img
             className="mt-4 mb-3"
             align="center"
