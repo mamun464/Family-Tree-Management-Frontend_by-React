@@ -71,13 +71,13 @@ const ForgetPassword = () => {
             <h1 className="text-white text-2xl">Please Reset Your Password</h1>
           </div>
 
-          <div className=" w-full flex flex-col gap-5 items-center">
+          <div className=" w-full  flex flex-col gap-5 items-center">
             <input className="text-base p-4" type="password" placeholder="New Password" />
             <input className="text-base p-4" type="password" placeholder="Confirm New Password" />
 
-            <button className="btn login-btn border-0 text-white hover:bg-[#161A39] mb-10" >RESET</button>
-          </div>
 
+          </div>
+          <button className="btn login-btn border-0 text-white hover:bg-[#161A39] mt-6 " >RESET</button>
 
 
         </div>
