@@ -1,9 +1,7 @@
-import Nav_2 from "../NavBar/Nav_2";
+
 import "./ResetForm.css"
 
 import './BlinkingArrow.css';
-import PasswordResetEmailModal from "./PasswordResetEmailModal";
-
 
 const ForgetPassword = () => {
 
@@ -27,7 +25,7 @@ const ForgetPassword = () => {
         }}>
         <div className="absolute inset-0 bg-black opacity-75"></div>
 
-        <div className=" cover flex z-5  fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className=" cover flex z-5  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <img
             className="mt-4 mb-3"
             align="center"
@@ -77,7 +75,7 @@ const ForgetPassword = () => {
             <input className="text-base p-4" type="password" placeholder="New Password" />
             <input className="text-base p-4" type="password" placeholder="Confirm New Password" />
 
-            <button className="btn login-btn border-0 hover:text-white hover:bg-[#161A39]" >RESET</button>
+            <button className="btn login-btn border-0 text-white hover:bg-[#161A39] " >RESET</button>
           </div>
 
 
