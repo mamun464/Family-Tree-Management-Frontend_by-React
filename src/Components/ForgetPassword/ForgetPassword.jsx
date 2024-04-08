@@ -75,7 +75,7 @@ const ForgetPassword = () => {
             <input className="text-base p-4" type="password" placeholder="New Password" />
             <input className="text-base p-4" type="password" placeholder="Confirm New Password" />
 
-            <button className="btn login-btn border-0 text-white hover:bg-[#161A39] " >RESET</button>
+            <button className="btn login-btn border-0 text-white hover:bg-[#161A39] mb-10" >RESET</button>
           </div>
 
 
