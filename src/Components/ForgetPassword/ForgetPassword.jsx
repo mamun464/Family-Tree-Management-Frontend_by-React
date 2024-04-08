@@ -47,7 +47,7 @@ const ForgetPassword = () => {
             }}
             width="58"
           />
-          <div className=" w-full bg-[#161A39] h-24 flex justify-center items-center gap-2 mb-6">
+          <div className=" w-full bg-[#161A39] h-24 flex justify-center items-center gap-2 mb-6 px-4">
             <img
               align="center"
               border="0"
