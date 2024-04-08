@@ -7,13 +7,22 @@ import Swal from 'sweetalert2'
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { Base_Url } from "../../../public/utils";
+import { IoEyeOutline } from "react-icons/io5";
+import { IoEyeOffOutline } from "react-icons/io5";
 
 const ForgetPassword = () => {
   const { userId, token } = useParams();
   const { setLoading, loading } = useContext(AuthContext)
+  const [showPassword, setShowPassword] = useState(false)
 
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
+
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault();
+    setShowPassword(!showPassword);
+
+  };
 
   const handleResetSubmit = async (e) => {
     console.log("clicked");
@@ -139,18 +148,21 @@ const ForgetPassword = () => {
             <h1 className="text-white text-2xl">Please Reset Your Password</h1>
           </div>
 
-          <div className="w-full flex flex-col gap-5 items-center">
+          <div className="w-full relative flex flex-col gap-5 items-center">
 
             <input
               className="input-reset text-base p-4 "
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="New Password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
+            <button className="absolute right-8 top-1.5 mt-2.5 mr-3 text-2xl text-gray-600 cursor-pointer" onClick={togglePasswordVisibility}>
+              {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+            </button>
             <input
               className="input-reset text-base p-4"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Confirm New Password"
               value={password2}
               onChange={(event) => setPassword2(event.target.value)}
