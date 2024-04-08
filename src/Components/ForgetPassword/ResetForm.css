@@ -22,7 +22,7 @@
 .cover {
     background-color: white;
     width: 70%;
-    height: 50%;
+    /* height: 50%; */
     position: relative;
     border-radius: 1em;
     box-shadow: 0 0.188em 1.550em rgb(156, 156, 156);
@@ -32,14 +32,14 @@
 
 .alt-login {
     width: 80%;
-    height: 3em;
+    /* height: 3em; */
     display: flex;
     justify-content: space-around;
 }
 
 .alt-login div {
     width: 47.5%;
-    height: 90%;
+    /* height: 90%; */
     border-radius: 0.25em;
     background-color: black;
     background-position: center;
@@ -63,7 +63,7 @@ input:focus {
 
 .login-btn {
     width: 40%;
-    height: 3em;
+    /* height: 3em; */
     background-color: #F9A51A;
     display: flex;
     justify-content: center;
@@ -90,7 +90,7 @@ input:focus {
 
 .blue {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -105,7 +105,7 @@ input:focus {
 
     .cover {
         width: 60%;
-        height: 70%;
+        /* height: 70%; */
     }
 }
 
@@ -117,6 +117,6 @@ input:focus {
 
     .cover {
         width: 25%;
-        height: 65%;
+        /* height: 65%; */
     }
 }
