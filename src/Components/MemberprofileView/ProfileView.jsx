@@ -109,9 +109,9 @@ const ProfileView = ({ user, loading }) => {
 
                         </div>
                         <h6 className="flex flex-col text-[#94a3b8] text-center  mt-1 font-bold uppercase">
-                            I am descended from the following ancestors
+                            You are descended from the following ancestors
                             <span className='flex justify-center text-3xl mt-1 pulse'
-                            
+
                             ><FaAngleDoubleDown /></span>
                         </h6>
                         <Ancestors
