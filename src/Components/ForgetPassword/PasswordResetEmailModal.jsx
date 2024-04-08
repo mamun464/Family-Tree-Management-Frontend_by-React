@@ -1,12 +1,12 @@
-import React, { useRef, useContext, useEffect, useState } from 'react';
+import { useRef, useContext, useEffect, useState } from 'react';
 import { Base_Url } from "../../../public/utils";
-import axios from 'axios';
 import { AuthContext } from '../../Provider/AuthProvider';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import emailjs from '@emailjs/browser';
 import './btn.css';
 import Swal from 'sweetalert2'
+import PropTypes from 'prop-types';
 
 
 
@@ -18,7 +18,7 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
   const [userId, setUserId] = useState('');
   const [token, setToken] = useState('');
   const [userName, setUserName] = useState('');
-  const [setBaseUrl] = useState('');
+  // const [setBaseUrl] = useState('');
   const [isChecking, setCheaking] = useState(false);
   useEffect(() => {
     if (showModal) {
@@ -110,7 +110,7 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
     }
 
     try {
-      console.log("Starting cheaking...");
+      // console.log("Starting cheaking...");
       setLoading(true)
       const response = await fetch(`${Base_Url}/api/member/send-reset-password-email/`, {
         method: 'POST',
@@ -329,6 +329,11 @@ const PasswordResetEmailModal = ({ showModal, setShowModal }) => {
 
     </>
   );
+};
+
+PasswordResetEmailModal.propTypes = {
+  showModal: PropTypes.bool.isRequired,
+  setShowModal: PropTypes.func.isRequired
 };
 
 export default PasswordResetEmailModal;

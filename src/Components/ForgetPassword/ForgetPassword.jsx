@@ -2,19 +2,87 @@
 import "./ResetForm.css"
 
 import './BlinkingArrow.css';
+import { useParams } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import { useContext, useState } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { Base_Url } from "../../../public/utils";
 
 const ForgetPassword = () => {
+  const { userId, token } = useParams();
+  const { setLoading, loading } = useContext(AuthContext)
 
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
+
+  const handleResetSubmit = async (e) => {
+    console.log("clicked");
+    e.preventDefault();
+
+    try {
+      // console.log("Starting cheaking...");
+      setLoading(true)
+      const response = await fetch(`${Base_Url}/api/member/rest-password/${userId}/${token}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password, password2 })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+
+        console.log(result);
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: result?.message || "Password Changed Successfully",
+          // footer: '<a href="#">Why do I have this issue?</a>',
+          // showCancelButton: false,
+          confirmButtonText: 'OK'
+        }).then((result) => {
+          // Check if the user clicked the "OK" button
+          if (result.isConfirmed) {
+            // Redirect to the home page
+            window.location.href = '/login'; // Replace '/' with the URL of your home page
+          }
+        });
+
+      } else {
+        // toast.error(result?.message);
+        console.log(result?.message);
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: result?.message || "Something went wrong.",
+          // footer: '<a href="#">Why do I have this issue?</a>'
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error || "Something went wrong.",
+        // footer: '<a href="#">Why do I have this issue?</a>'
+      });
+      // toast.error(`Mail sent Failed! ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+
+
+
+    // setShowModal(false)
+
+    // You can add logic here to actually send the recovery email
+  }
 
   return (
     <>
-
-      {/* <div className="flex justify-center items-center  bg-white">
-        <div className=" my-4 bg-white p-8 rounded  w-full md:w-1/2">
-          <h1 className="text-2xl text-center font-bold">Under Development: Password Recovery!</h1>
-          <p className="text-center pulse font-medium">Till then, please contact the developer from the footer.</p>
-        </div>
-      </div> */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -71,13 +139,38 @@ const ForgetPassword = () => {
             <h1 className="text-white text-2xl">Please Reset Your Password</h1>
           </div>
 
-          <div className=" w-full  flex flex-col gap-5 items-center">
-            <input className="text-base p-4" type="password" placeholder="New Password" />
-            <input className="text-base p-4" type="password" placeholder="Confirm New Password" />
+          <div className="w-full flex flex-col gap-5 items-center">
+
+            <input
+              className="input-reset text-base p-4 "
+              type="password"
+              placeholder="New Password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+            <input
+              className="input-reset text-base p-4"
+              type="password"
+              placeholder="Confirm New Password"
+              value={password2}
+              onChange={(event) => setPassword2(event.target.value)}
+            />
 
 
           </div>
-          <button className="btn login-btn border-0 text-white hover:bg-[#161A39] mt-6 " >RESET</button>
+          <button
+
+            onClick={!loading ? handleResetSubmit : undefined}
+            type="submit" className={`btn reset-btn border-0 text-white hover:bg-[#161A39] ${loading ? 'cursor-not-allowed bg-[#161A39] text-white' : ''} mt-6`}>
+            {
+              loading ? <span >
+                <i className="fa fa-spinner fa-spin"></i> Loading
+              </span>
+                : "RESET"
+
+
+            }
+          </button>
 
 
         </div>
