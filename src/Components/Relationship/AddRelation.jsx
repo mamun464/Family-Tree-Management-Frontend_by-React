@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Base_Url } from '../../../public/utils';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 import PersonViewCard from './PersonViewCard';
 import { getTokenFromLocalStorage } from './../../Utils/Utils';
@@ -86,8 +87,21 @@ const AddRelation = () => {
             const result = response.data;
 
             if (result.success) {
-                toast.success(result.message);
-                window.location.reload();
+                Swal.fire({
+                    icon: "success",
+                    title: `Success`,
+                    text: result.message || "Successfully Connection Established",
+                    // footer: '<a href="#">Why do I have this issue?</a>'
+                }).then((result) => {
+                    // If the "OK" button is clicked or the modal is closed
+                    if (result.isConfirmed || result.isDismissed) {
+                        // Delay reload by 2 seconds
+                        window.location.reload();
+                        // setTimeout(() => {
+
+                        // }, 2000);
+                    }
+                });
             } else {
                 handleError(result);
             }
@@ -99,13 +113,19 @@ const AddRelation = () => {
     };
 
     const handleError = (error) => {
-        console.error('Error handling connection:', error);
+        // console.error('Error handling connection:', error);
 
         if (error.status === 401) {
             localStorage.clear();
             window.location.reload();
         } else {
-            toast.error(error.message || 'Connection create failed!');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error.message || "Something went wrong.",
+                // footer: '<a href="#">Why do I have this issue?</a>'
+            });
+            // toast.error(error.message || 'Connection create failed!');
         }
     };
 
@@ -160,16 +180,16 @@ const AddRelation = () => {
                         <Loader></Loader>
                     )} */}
                     <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-[#f1f5f9] border-0">
-                    <div className="absolute flex flex-row bg-white bg-opacity-0 gap-5 px-4 py-4 mt-8 mb-4">
-                        <button className="hidden min-xl:inline text-xl font-medium text-white py-2 px-6 bg-[#D72050] ">Note</button>
+                        <div className="absolute flex flex-row bg-white bg-opacity-0 gap-5 px-4 py-4 mt-8 mb-4">
+                            <button className="hidden min-xl:inline text-xl font-medium text-white py-2 px-6 bg-[#D72050] ">Note</button>
 
-                        <Marquee className="text-[#403F3F] text-[18px] font-semibold" pauseOnHover={true}>
-                            <div className="flex flex-wrap justify-center">
-                                <Link className='mr-6'><span className='text-red-600 font-semibold'>Rule-1: </span>Select the parent through whom you are connected to the Sonatundi ancestry.</Link>
-                                <Link className='mr-6'><span className='text-red-600 font-semibold'>Rule-2: </span>If your Parent Account is not found in the list then please REGISTER first by your parents.</Link>
-                            </div>
-                        </Marquee>
-                </div>
+                            <Marquee className="text-[#403F3F] text-[18px] font-semibold" pauseOnHover={true}>
+                                <div className="flex flex-wrap justify-center">
+                                    <Link className='mr-6'><span className='text-red-600 font-semibold'>Rule-1: </span>Select the parent through whom you are connected to the Sonatundi ancestry.</Link>
+                                    <Link className='mr-6'><span className='text-red-600 font-semibold'>Rule-2: </span>If your Parent Account is not found in the list then please REGISTER first by your parents.</Link>
+                                </div>
+                            </Marquee>
+                        </div>
 
                         <div className="rounded-t bg-red-50 mb-0  pt-0">
                             <div className=" bg-[#f1f5f9] rounded-lg text-gray-900">
@@ -222,7 +242,35 @@ const AddRelation = () => {
                                                         relationship_type ? <>
                                                             <div className='flex justify-between mt-6 pb-2'>
                                                                 <button onClick={handleRest} className="btn btn-error">REST</button>
-                                                                <button onClick={handleConnection} className="btn btn-warning">Make Connection</button>
+                                                                <button
+                                                                    onClick={handleConnection}
+                                                                    disabled={loading}
+                                                                    className={`btn btn-warning ${loading ? 'cursor-not-allowed' : ''}`}
+                                                                    style={loading ? {
+                                                                        backgroundColor: '#FFBE00', // Set background color
+                                                                        color: 'rgba(0,0,0,0.5)', // Set text color to black
+                                                                        fontWeight: 'bold',
+                                                                        cursor: 'not-allowed' // Make text bold
+                                                                    } : {}}
+                                                                    onMouseEnter={(e) => {
+                                                                        e.target.style.backgroundColor = "#D48700";
+                                                                        e.target.style.color = "#fff";
+                                                                    }}
+                                                                    onMouseLeave={(e) => {
+                                                                        e.target.style.backgroundColor = "#F9A51A";
+                                                                        e.target.style.color = "#000";
+                                                                    }}
+                                                                >
+
+                                                                    {
+                                                                        loading ? <span >
+                                                                            <i className="fa fa-spinner fa-spin"></i> Loading
+                                                                        </span>
+                                                                            : "Make Connection"
+
+
+                                                                    }
+                                                                </button>
                                                             </div>
                                                         </>
                                                             :
