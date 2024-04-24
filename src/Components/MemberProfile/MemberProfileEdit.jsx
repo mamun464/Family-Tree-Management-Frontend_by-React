@@ -262,8 +262,8 @@ const MemberProfileEdit = () => {
                 if (result.isConfirmed || result.isDismissed) {
                     // fuck you
                     window.location.reload();
-                    window.location.reload();
-                    window.location.reload();
+                    // window.location.reload();
+                    // window.location.reload();
                     ;
                 }
             });
