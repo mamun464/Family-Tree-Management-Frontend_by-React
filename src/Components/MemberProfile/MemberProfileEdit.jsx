@@ -123,62 +123,7 @@ const MemberProfileEdit = () => {
 
     
 
-    // const UpdatePassword = async (token) => {
-    //     try {
-
-    //         setLoading(true);
-    //         const requestBody = {
-    //             password,
-    //             password2
-
-    //         };
-    //         console.log("In change funtion--------->");
-    //         const response = await fetch(`${Base_Url}/api/member/changepassword/`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': ` Bearer ${token}`,
-    //             },
-    //             body: JSON.stringify(requestBody),
-    //         });
-
-
-    //         console.log("response get--------->");
-    //         const result = await response.json();
-    //         if (result.success) {
-    //             console.log(" get 200--------->");
-
-    //             toast.success(result.message);
-    //             // setUser(result.user_data)
-    //             // const { access, refresh } = result.token;
-    //             // localStorage.setItem('access_token', access);
-    //             // localStorage.setItem('refresh_token', refresh);
-    //             // localStorage.setItem('user', JSON.stringify(result.user_data));
-
-
-
-    //             setTimeout(() => {
-    //                 navigate(location?.state ? location.state : '/'); // Assuming 'Home' is your home screen name
-    //             }, 900);
-
-
-    //         }
-    //         else if (result.status === 401) {
-
-    //             localStorage.clear();
-    //             window.location.reload();
-    //         }
-    //         else {
-    //             toast.error(result.message);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching data:', error);
-    //         toast.error(` fetching data Failed! ${error.message}`);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-        
-    // }
+    
     
 
     const UpdatePassword = async (token) => {
@@ -280,7 +225,7 @@ const MemberProfileEdit = () => {
                         navigate(location?.state ? location.state : '/');
                         ;
                     }
-                });;
+                });
 
                 setUser(result.user_data)
                 // const { access, refresh } = result.token;
@@ -309,10 +254,20 @@ const MemberProfileEdit = () => {
         
     }
 
-
-
     function handleImageUpload(e) {
         const file = e.target.files[0];
+        if (file.size > 300 * 1024) { // 300kb in bytes
+            Swal.fire("Failed!", result.message, "error").then((result) => {
+                // If the "OK" button is clicked or the modal is closed
+                if (result.isConfirmed || result.isDismissed) {
+                    
+                    window.location.reload();
+                    ;
+                }
+            });
+            // alert("File size exceeds the limit of 300kb. Please select a smaller file.");
+            return;
+        }
         const formData = new FormData();
         formData.append('image', file);
         setLoading(true)
