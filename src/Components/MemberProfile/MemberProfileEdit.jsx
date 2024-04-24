@@ -204,27 +204,32 @@ const MemberProfileEdit = () => {
                 const result = response.data;
                 setIs_change_pass(false)
                 if (result.success) {
-                    toast.success(result.message);
+                    // toast.success(result.message);
+                    Swal.fire("Saved!", result.message, "success");
                     
                 } else if (result.status === 401) {
                     localStorage.clear();
                     window.location.reload();
                 } else {
-                    toast.error(result.message);
+                    // toast.error("result.message");
+                    Swal.fire("Failed!", result.message, "error");
                 }
             } else {
                 // Handle non-200 response
                 const errorResult = response.data;
                 console.error('Non-200 response:', errorResult);
-                toast.error(`Action Failed! ${errorResult.message}`);
+                Swal.fire("Failed!",errorResult.message, "error");
+                // toast.error(`Action Failed! ${errorResult.message}`);
             }
         } catch (error) {
             if (error.response.status === 400) {
                 console.error('Bad Request:', error.response.data);
-                toast.error(`${error.response.data.message}`);
+                // toast.error(`${error.response.data.message}`);
+                Swal.fire("Failed!", error.response.data.message, "error");
             } else {
                 console.error('Error fetching data:', error);
-                toast.error(`Action Failed! ${error.message}`);
+                Swal.fire("Failed!", error.message, "error");
+                // toast.error(`Action Failed! ${error.message}`);
             }
         } finally {
             setLoading(false);
@@ -363,8 +368,16 @@ const MemberProfileEdit = () => {
         const tokenNow = getTokenFromLocalStorage();
         
         if (tokenNow) {
-            // console.log(token);
-            UpdatePassword(tokenNow)
+            Swal.fire({
+                title: "Do you want to save the New Password?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`
+              }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    UpdatePassword(tokenNow)
                 .then(response => {
 
                     console.log("Response:", response);
@@ -377,6 +390,14 @@ const MemberProfileEdit = () => {
                     handleError(error)
                     
                 });
+                  
+                } else if (result.isDenied) {
+                  Swal.fire("New Password are not saved", "", "info");
+                }
+              });
+            // console.log(token);
+
+            
 
 
         } else {
@@ -407,42 +428,50 @@ const MemberProfileEdit = () => {
     const handleUpdateData = () => {
         const tokenNow = getTokenFromLocalStorage();
         
-        if (tokenNow) {
-            // console.log(token);
-
+        if(!is_change_pass){
+            if (tokenNow) {
+                // console.log(token);
+    
+                Swal.fire({
+                    title: "Do you want to save the changes?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Save",
+                    denyButtonText: `Don't save`
+                  }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        UpdateProfileData(tokenNow)
+                            .then(response => {
+                                console.log("Response:", response);
+                        })
+                        .catch(error => {
+                        console.error("Error updating profile data:", error);
+                        // toast.error("Failed to update profile data. Please try again later.");
+                        handleError(error)
+                    });
+                      
+                    } else if (result.isDenied) {
+                      Swal.fire("Changes are not saved", "", "info");
+                    }
+                  });
+    
+                
+    
+    
+            } else {
+                // toast.warn("You have to login first");
+                let error = {
+                    message: "You have to login again!"
+                };
+                handleError(error)
+            }
+        }else{
             Swal.fire({
-                title: "Do you want to save the changes?",
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: "Save",
-                denyButtonText: `Don't save`
-              }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    UpdateProfileData(tokenNow)
-                        .then(response => {
-                            console.log("Response:", response);
-                    })
-                    .catch(error => {
-                    console.error("Error updating profile data:", error);
-                    // toast.error("Failed to update profile data. Please try again later.");
-                    handleError(error)
-                });
-                  
-                } else if (result.isDenied) {
-                  Swal.fire("Changes are not saved", "", "info");
-                }
+                title: "Acction Needed!",
+                text: "You have to deselect the option for password change first.",
+                icon: "warning"
               });
-
-            
-
-
-        } else {
-            // toast.warn("You have to login first");
-            let error = {
-                message: "You have to login again!"
-            };
-            handleError(error)
         }
     };
     return (
