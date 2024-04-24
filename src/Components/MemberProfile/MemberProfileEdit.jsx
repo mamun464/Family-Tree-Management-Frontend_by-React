@@ -260,7 +260,9 @@ const MemberProfileEdit = () => {
             Swal.fire("Failed!", result.message, "error").then((result) => {
                 // If the "OK" button is clicked or the modal is closed
                 if (result.isConfirmed || result.isDismissed) {
-                    
+                    // fuck you
+                    window.location.reload();
+                    window.location.reload();
                     window.location.reload();
                     ;
                 }
