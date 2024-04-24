@@ -14,6 +14,7 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import { getProfileLocalStorage, getTokenFromLocalStorage } from '../../Utils/Utils';
 import Loader from '../Loader/Loader';
 import './loading.css';
+import Swal from 'sweetalert2'
 
 
 
@@ -39,7 +40,10 @@ const MemberProfileEdit = () => {
             setToken(token);
             setDebouncedFetch(true); // Set debouncedFetch to true
         } else {
-            toast.warn("You have to login first");
+            let error = {
+                message: "You have to login again!"
+            };
+            handleError(error)
         }
     }, []);
 
@@ -263,19 +267,21 @@ const MemberProfileEdit = () => {
 
             const result = await response.json();
             if (result.success) {
+                // toast.success(result.message);
+                Swal.fire("Saved!", result.message, "success").then((result) => {
+                    // If the "OK" button is clicked or the modal is closed
+                    if (result.isConfirmed || result.isDismissed) {
+                        
+                        navigate(location?.state ? location.state : '/');
+                        ;
+                    }
+                });;
 
-                toast.success(result.message);
                 setUser(result.user_data)
                 // const { access, refresh } = result.token;
                 // localStorage.setItem('access_token', access);
                 // localStorage.setItem('refresh_token', refresh);
                 localStorage.setItem('user', JSON.stringify(result.user_data));
-
-
-
-                setTimeout(() => {
-                    navigate(location?.state ? location.state : '/'); // Assuming 'Home' is your home screen name
-                }, 900);
 
 
             }
@@ -285,11 +291,13 @@ const MemberProfileEdit = () => {
                 window.location.reload();
             }
             else {
-                toast.error(result.message);
+                // toast.error(result.message);
+                handleError(result.message)
             }
         } catch (error) {
-            console.error('Error fetching data:', error);
-            toast.error(` fetching data Failed! ${error.message}`);
+            console.error('Error fetching data: ', error);
+            // toast.error(` fetching data Failed! ${error.message}`);
+            handleError(result.message)
         } finally {
             setLoading(false);
         }
@@ -363,15 +371,37 @@ const MemberProfileEdit = () => {
 
                 })
                 .catch(error => {
-                    toast.error(`Failed to update Password. ${error}`);
+                    // toast.error(`Failed to update Password. ${error}`);
                     console.error("Error updating Password:", error);
-                    toast.error("Failed to update Password. Please try again later.");
+                    // toast.error("Failed to update Password. Please try again later.");
+                    handleError(error)
                     
                 });
 
 
         } else {
-            toast.warn("You have to login first");
+            let error = {
+                message: "You have to login first!"
+            };
+            handleError(error)
+            // toast.warn("You have to login first");
+        }
+    };
+
+    const handleError = (error) => {
+        // console.error('Error handling connection:', error);
+
+        if (error.status === 401) {
+            localStorage.clear();
+            window.location.reload();
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error.message || "Something went wrong.",
+                // footer: '<a href="#">Why do I have this issue?</a>'
+            });
+            // toast.error(error.message || 'Connection create failed!');
         }
     };
     const handleUpdateData = () => {
@@ -379,20 +409,40 @@ const MemberProfileEdit = () => {
         
         if (tokenNow) {
             // console.log(token);
-            UpdateProfileData(tokenNow)
-                .then(response => {
 
-                    console.log("Response:", response);
-
-                })
-                .catch(error => {
+            Swal.fire({
+                title: "Do you want to save the changes?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`
+              }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    UpdateProfileData(tokenNow)
+                        .then(response => {
+                            console.log("Response:", response);
+                    })
+                    .catch(error => {
                     console.error("Error updating profile data:", error);
-                    toast.error("Failed to update profile data. Please try again later.");
+                    // toast.error("Failed to update profile data. Please try again later.");
+                    handleError(error)
                 });
+                  
+                } else if (result.isDenied) {
+                  Swal.fire("Changes are not saved", "", "info");
+                }
+              });
+
+            
 
 
         } else {
-            toast.warn("You have to login first");
+            // toast.warn("You have to login first");
+            let error = {
+                message: "You have to login again!"
+            };
+            handleError(error)
         }
     };
     return (
@@ -722,16 +772,31 @@ const MemberProfileEdit = () => {
 
 
                                 <div className='flex justify-end mt-10'>
-                                    <Link type='submit'
+                                    <button type='submit'
                                         onClick={handleUpdateData}
 
                                         className="btn bg-[#F9A51A] w-36 h-11 rounded-md uppercase text-[#475569] text-xs font-bold border-0 outline-none flex items-center justify-center"
-                                        style={{ color: "black", transition: "color 0.3s" }}
+                                        disabled={loading}
+                                        style={loading ? {
+                                            backgroundColor: '#FFBE00', // Set background color
+                                            color: 'rgba(0,0,0,0.5)', // Set text color to black
+                                            fontWeight: 'bold',
+                                            cursor: 'not-allowed',
+                                            transition: "color 0.2s" // Make text bold
+                                        } : {}}
+                                        
                                         onMouseEnter={(e) => { e.target.style.backgroundColor = '#D48700'; e.target.style.color = '#fff'; }}
                                         onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
                                     >
-                                        Update Data
-                                    </Link>
+                                       {
+                                            loading ? <span >
+                                                <i className="fa fa-spinner fa-spin"></i> Loading
+                                                    </span>
+                                                    : "Update Data"
+
+
+                                        }
+                                    </button>
                                 </div>
 
 

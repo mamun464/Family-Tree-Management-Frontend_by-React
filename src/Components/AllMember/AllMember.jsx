@@ -220,16 +220,16 @@ const AllMember = () => {
 
                 {
                     loading ? <>
-                        <div className='p-8 mt-10 max-w-7xl mx-auto  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'>
+                        <div className='p-8 mt-10 max-w-7xl mx-auto grid gap-4 sm:grid-cols-2 md:grid-cols-3 desktop:grid-cols-4'>
                             <Skeleton></Skeleton>
                             <Skeleton></Skeleton>
                             <Skeleton></Skeleton>
                             <Skeleton></Skeleton>
+                            {/* <Skeleton></Skeleton>
                             <Skeleton></Skeleton>
                             <Skeleton></Skeleton>
                             <Skeleton></Skeleton>
-                            <Skeleton></Skeleton>
-                            <Skeleton></Skeleton>
+                            <Skeleton></Skeleton> */}
                         </div>
                     </>
 
@@ -248,9 +248,9 @@ const AllMember = () => {
                                             ></SingleMember>)
                                         }
                                     </div>
-                                    <div className={`p-8 pb-4 flex justify-between ${allUser.length > 8 ? '' : 'hidden'}`}>
+                                    <div className={`p-8 pb-4 flex justify-between  ${allUser.length > 8 ? '' : 'hidden'}`}>
                                         <button
-                                            className={`btn btn-warning w-24 ${nextCount === 0 ? 'disabled' : ''}`}
+                                            className={`btn btn-warning w-24 border-0 ${nextCount === 0 ? 'disabled' : ''}`}
                                             onClick={nextCount === 0 ? null : handlePrevious}
                                             style={{
                                                 cursor: nextCount === 0 ? 'not-allowed' : 'pointer',
@@ -261,7 +261,7 @@ const AllMember = () => {
                                         </button>
 
                                         <button
-                                            className={`btn btn-warning w-24 ${display.length <= 8 ? 'disabled' : ''}`}
+                                            className={`btn btn-warning w-24 border-0 ${display.length <= 8 ? 'disabled' : ''}`}
                                             onClick={display.length < 8 ? null : handleNext}
                                             style={{
                                                 cursor: display.length < 8 ? 'not-allowed' : 'pointer',
