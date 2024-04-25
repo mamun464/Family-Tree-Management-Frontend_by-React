@@ -461,7 +461,7 @@ const MemberProfileEdit = () => {
             }
         } else {
             Swal.fire({
-                title: "Acction Needed!",
+                title: "Action Needed!",
                 text: "You have to deselect the option for password change first.",
                 icon: "warning"
             });
