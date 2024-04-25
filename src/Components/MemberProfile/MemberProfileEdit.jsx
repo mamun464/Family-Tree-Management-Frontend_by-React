@@ -181,7 +181,10 @@ const MemberProfileEdit = () => {
         }
     }
 
-
+    // Function to get file extension
+    function getFileExtension(filename) {
+        return filename.split('.').pop().toLowerCase();
+    }
 
     const UpdateProfileData = async (token) => {
         try {
@@ -256,20 +259,37 @@ const MemberProfileEdit = () => {
 
     function handleImageUpload(e) {
         const file = e.target.files[0];
-        if (file.size > 300 * 1024) { // 300kb in bytes
-            Swal.fire("Failed!", result.message, "error").then((result) => {
+
+        // Check file extension
+        const allowedExtensions = ['jpg', 'jpeg', 'png'];
+        const fileExtension = getFileExtension(file.name);
+        if (!allowedExtensions.includes(fileExtension)) {
+            Swal.fire("Failed!", "Invalid file type. Please select a photo file (JPG, JPEG, PNG).", "error").then((result) => {
                 // If the "OK" button is clicked or the modal is closed
                 if (result.isConfirmed || result.isDismissed) {
                     // If the upload was successful
                     window.location.reload();
-                    // window.location.reload();
-                    // window.location.reload();
-                    ;
+                    return
                 }
             });
-            // alert("File size exceeds the limit of 300kb. Please select a smaller file.");
-            return;
+            // alert("Please select a photo file not supported")
+
         }
+
+        // Check file size
+        if (file.size > 300 * 1024) { // 300kb in bytes
+            Swal.fire("Failed!", "File size exceeds the limit of 300kb. Please select a smaller file.", "error").then((result) => {
+                // If the "OK" button is clicked or the modal is closed
+                if (result.isConfirmed || result.isDismissed) {
+                    // If the upload was successful
+                    window.location.reload();
+                    return
+                }
+            });
+        }
+
+
+
         const formData = new FormData();
         formData.append('image', file);
         setLoading(true)
@@ -286,7 +306,14 @@ const MemberProfileEdit = () => {
                 console.log("++++++++++>>>", data);
                 if (data && data.data && data.data.image && data.data.image.url) {
                     setUser_profile_img(data.data.image.url);
-                    toast.success("DP updated successfully");
+                    // toast.success("DP updated successfully");
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Uploaded image successfully",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
 
                 setLoading(false)
@@ -294,6 +321,15 @@ const MemberProfileEdit = () => {
             .catch(error => {
                 console.error('Error uploading image to ImgBB:', error);
                 setLoading(false)
+                Swal.fire("Failed!", `Error uploading image to ImgBB: ${error}`, "error").then((result) => {
+                    // If the "OK" button is clicked or the modal is closed
+                    if (result.isConfirmed || result.isDismissed) {
+                        // If the upload was successful
+                        window.location.reload();
+                        return
+                    }
+                });
+
             });
 
 
