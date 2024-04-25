@@ -121,10 +121,10 @@ const MemberProfileEdit = () => {
         }
     }
 
-    
 
-    
-    
+
+
+
 
     const UpdatePassword = async (token) => {
         try {
@@ -133,25 +133,25 @@ const MemberProfileEdit = () => {
                 password,
                 password2
             };
-    
-            
-    
+
+
+
             const response = await axios.post(`${Base_Url}/api/member/changepassword/`, requestBody, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             });
-    
-            
-    
+
+
+
             if (response.status === 200) {
                 const result = response.data;
                 setIs_change_pass(false)
                 if (result.success) {
                     // toast.success(result.message);
                     Swal.fire("Saved!", result.message, "success");
-                    
+
                 } else if (result.status === 401) {
                     localStorage.clear();
                     window.location.reload();
@@ -163,7 +163,7 @@ const MemberProfileEdit = () => {
                 // Handle non-200 response
                 const errorResult = response.data;
                 console.error('Non-200 response:', errorResult);
-                Swal.fire("Failed!",errorResult.message, "error");
+                Swal.fire("Failed!", errorResult.message, "error");
                 // toast.error(`Action Failed! ${errorResult.message}`);
             }
         } catch (error) {
@@ -180,8 +180,8 @@ const MemberProfileEdit = () => {
             setLoading(false);
         }
     }
-    
-    
+
+
 
     const UpdateProfileData = async (token) => {
         try {
@@ -221,7 +221,7 @@ const MemberProfileEdit = () => {
                 Swal.fire("Saved!", result.message, "success").then((result) => {
                     // If the "OK" button is clicked or the modal is closed
                     if (result.isConfirmed || result.isDismissed) {
-                        
+
                         navigate(location?.state ? location.state : '/');
                         ;
                     }
@@ -251,7 +251,7 @@ const MemberProfileEdit = () => {
         } finally {
             setLoading(false);
         }
-        
+
     }
 
     function handleImageUpload(e) {
@@ -260,7 +260,7 @@ const MemberProfileEdit = () => {
             Swal.fire("Failed!", result.message, "error").then((result) => {
                 // If the "OK" button is clicked or the modal is closed
                 if (result.isConfirmed || result.isDismissed) {
-                    // fuck you
+                    // If the upload was successful
                     window.location.reload();
                     // window.location.reload();
                     // window.location.reload();
@@ -307,12 +307,12 @@ const MemberProfileEdit = () => {
         if ((password === "") || (password2 === "")) {
             return false; // If one is empty and the other is not, they don't match
         }
-    
+
         // Check if passwords match
         if (password === password2) {
             return true;
         }
-    
+
         return false;
     };
 
@@ -323,7 +323,7 @@ const MemberProfileEdit = () => {
     const handleUpdatePass = (e) => {
         e.preventDefault();
         const tokenNow = getTokenFromLocalStorage();
-        
+
         if (tokenNow) {
             Swal.fire({
                 title: "Do you want to save the New Password?",
@@ -331,30 +331,30 @@ const MemberProfileEdit = () => {
                 showCancelButton: true,
                 confirmButtonText: "Save",
                 denyButtonText: `Don't save`
-              }).then((result) => {
+            }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     UpdatePassword(tokenNow)
-                .then(response => {
+                        .then(response => {
 
-                    console.log("Response:", response);
+                            console.log("Response:", response);
 
-                })
-                .catch(error => {
-                    // toast.error(`Failed to update Password. ${error}`);
-                    console.error("Error updating Password:", error);
-                    // toast.error("Failed to update Password. Please try again later.");
-                    handleError(error)
-                    
-                });
-                  
+                        })
+                        .catch(error => {
+                            // toast.error(`Failed to update Password. ${error}`);
+                            console.error("Error updating Password:", error);
+                            // toast.error("Failed to update Password. Please try again later.");
+                            handleError(error)
+
+                        });
+
                 } else if (result.isDenied) {
-                  Swal.fire("New Password are not saved", "", "info");
+                    Swal.fire("New Password are not saved", "", "info");
                 }
-              });
+            });
             // console.log(token);
 
-            
+
 
 
         } else {
@@ -384,38 +384,38 @@ const MemberProfileEdit = () => {
     };
     const handleUpdateData = () => {
         const tokenNow = getTokenFromLocalStorage();
-        
-        if(!is_change_pass){
+
+        if (!is_change_pass) {
             if (tokenNow) {
                 // console.log(token);
-    
+
                 Swal.fire({
                     title: "Do you want to save the changes?",
                     showDenyButton: true,
                     showCancelButton: true,
                     confirmButtonText: "Save",
                     denyButtonText: `Don't save`
-                  }).then((result) => {
+                }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
                         UpdateProfileData(tokenNow)
                             .then(response => {
                                 console.log("Response:", response);
-                        })
-                        .catch(error => {
-                        console.error("Error updating profile data:", error);
-                        // toast.error("Failed to update profile data. Please try again later.");
-                        handleError(error)
-                    });
-                      
+                            })
+                            .catch(error => {
+                                console.error("Error updating profile data:", error);
+                                // toast.error("Failed to update profile data. Please try again later.");
+                                handleError(error)
+                            });
+
                     } else if (result.isDenied) {
-                      Swal.fire("Changes are not saved", "", "info");
+                        Swal.fire("Changes are not saved", "", "info");
                     }
-                  });
-    
-                
-    
-    
+                });
+
+
+
+
             } else {
                 // toast.warn("You have to login first");
                 let error = {
@@ -423,12 +423,12 @@ const MemberProfileEdit = () => {
                 };
                 handleError(error)
             }
-        }else{
+        } else {
             Swal.fire({
                 title: "Acction Needed!",
                 text: "You have to deselect the option for password change first.",
                 icon: "warning"
-              });
+            });
         }
     };
     return (
@@ -703,58 +703,58 @@ const MemberProfileEdit = () => {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <hr className="mt-6 border-b-1 border-[#cbd5e1]" />
                                 <h6 className="text-[#94a3b8] text-sm mt-3 mb-6 font-bold uppercase">
-                                Password Upadation
+                                    Password Upadation
                                 </h6>
                                 <div className="flex ">
-                                            <label className="cursor-pointer label ">
-                                                <input type="checkbox" className="checkbox checkbox-warning mr-2" name='is_change_pass'
-                                                    checked={is_change_pass}
-                                                    onChange={(e) => setIs_change_pass(e.target.checked)} />
-                                                <span className="block uppercase text-[#475569] text-xs font-bold  ">Want to Change Password ?</span>
+                                    <label className="cursor-pointer label ">
+                                        <input type="checkbox" className="checkbox checkbox-warning mr-2" name='is_change_pass'
+                                            checked={is_change_pass}
+                                            onChange={(e) => setIs_change_pass(e.target.checked)} />
+                                        <span className="block uppercase text-[#475569] text-xs font-bold  ">Want to Change Password ?</span>
 
-                                            </label>
-                                        </div>
-                                        <div className={`flex flex-wrap ${is_change_pass ? '' : 'hidden'}`}>
-                                            <div className="w-full lg:w-12/12 px-4">
-                                                <div className="relative w-full mb-3">
-                                                    <label className="block uppercase text-[#475569] text-xs font-bold mb-2" >
-                                                        New Password
-                                                    </label>
-                                                    <input 
-                                                        type="password" 
-                                                        className="text-2xl border-0  px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" 
-                                                        name='password'
-                                                        required
-                                                        onChange={(event) => setpassword(event.target.value)}
-                                                    />
-                                                </div>
-                                                <div className="relative w-full mb-3">
-                                                    <label className="block uppercase text-[#475569] text-xs font-bold mb-2" >
-                                                        Confirm New Password
-                                                    </label>
-                                                    <input 
-                                                        type="password" 
-                                                        className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" 
-                                                        name='password2'
-                                                        required
-                                                        onChange={(event) => setpassword2(event.target.value)} 
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className='flex justify-end mt-10'>
-                                            <Link
-                                                type='submit'
-                                                onClick={handleUpdatePass}
-                                               className='text-lg px-auto rounded-md py-2 px-4 text-white font-semibold bg-[#FF444A] hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-300 ease-in-out active:bg-[#FF2227]'
-                                            >
-                                                Change Password
-                                            </Link>
-
+                                    </label>
                                 </div>
+                                <div className={`flex flex-wrap ${is_change_pass ? '' : 'hidden'}`}>
+                                    <div className="w-full lg:w-12/12 px-4">
+                                        <div className="relative w-full mb-3">
+                                            <label className="block uppercase text-[#475569] text-xs font-bold mb-2" >
+                                                New Password
+                                            </label>
+                                            <input
+                                                type="password"
+                                                className="text-2xl border-0  px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                                name='password'
+                                                required
+                                                onChange={(event) => setpassword(event.target.value)}
+                                            />
                                         </div>
+                                        <div className="relative w-full mb-3">
+                                            <label className="block uppercase text-[#475569] text-xs font-bold mb-2" >
+                                                Confirm New Password
+                                            </label>
+                                            <input
+                                                type="password"
+                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                                name='password2'
+                                                required
+                                                onChange={(event) => setpassword2(event.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className='flex justify-end mt-10'>
+                                        <Link
+                                            type='submit'
+                                            onClick={handleUpdatePass}
+                                            className='text-lg px-auto rounded-md py-2 px-4 text-white font-semibold bg-[#FF444A] hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-300 ease-in-out active:bg-[#FF2227]'
+                                        >
+                                            Change Password
+                                        </Link>
+
+                                    </div>
+                                </div>
 
 
                                 <div className='flex justify-end mt-10'>
@@ -770,15 +770,15 @@ const MemberProfileEdit = () => {
                                             cursor: 'not-allowed',
                                             transition: "color 0.2s" // Make text bold
                                         } : {}}
-                                        
+
                                         onMouseEnter={(e) => { e.target.style.backgroundColor = '#D48700'; e.target.style.color = '#fff'; }}
                                         onMouseLeave={(e) => { e.target.style.backgroundColor = '#F9A51A'; e.target.style.color = '#000'; }}
                                     >
-                                       {
+                                        {
                                             loading ? <span >
                                                 <i className="fa fa-spinner fa-spin"></i> Loading
-                                                    </span>
-                                                    : "Update Data"
+                                            </span>
+                                                : "Update Data"
 
 
                                         }
