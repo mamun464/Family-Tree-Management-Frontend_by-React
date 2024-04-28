@@ -9,6 +9,8 @@ import ProfileView from "../MemberprofileView/ProfileView";
 import { getTokenFromLocalStorage } from "../../Utils/Utils";
 import Nav_2 from "../NavBar/Nav_2";
 import Swal from 'sweetalert2'
+import Skeleton from "../Loader/Skeleton";
+import Loader from "../Loader/Loader";
 // import Swal from 'sweetalert2/dist/sweetalert2.js'
 // import 'sweetalert2/src/sweetalert2.scss'
 
@@ -81,7 +83,9 @@ const SingleMemberDetails = () => {
         <>
             <Nav_2></Nav_2>
             {
-
+                loading ? <Loader></Loader> : null
+            }
+            {
                 singleUser && Object.keys(singleUser).length > 0 ? (
                     <ProfileView
                         user={singleUser}
