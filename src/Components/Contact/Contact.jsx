@@ -1,8 +1,70 @@
 
 import Nav_2 from './../NavBar/Nav_2';
+import emailjs from '@emailjs/browser';
+import { useRef } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2'
 
 
 const Contact = () => {
+    const form = useRef();
+    const sendEmail = (e) => {
+        e.preventDefault();
+
+        // Access form fields
+        const name = form.current.client_name.value;
+        const email = form.current.client_email.value;
+        const message = form.current.client_message.value;
+
+        // Validate message
+        if (message.trim() === "" || name.trim() === "" || email.trim() === "") {
+            toast.error(`Must be fill up the form!`);
+            return;
+        }
+
+        emailjs
+            .sendForm(
+                "service_c59y82f",
+                "template_o1b7i3v",
+                form.current,
+                "Siw0TLaGRAaRaEzot")
+            .then(
+                () => {
+                    // toast.success("Message successfully delivered to Mamun!")
+
+                    console.log('SUCCESS!');
+                    e.target.reset();
+                    Swal.fire({
+                        icon: "success",
+                        title: `Mail Sent`,
+                        text: "Thank you for contacting us & will get back to you shortly.",
+                        // footer: '<a href="#">Why do I have this issue?</a>'
+                    }).then((result) => {
+                        // If the "OK" button is clicked or the modal is closed
+                        if (result.isConfirmed || result.isDismissed) {
+                            // Delay reload by 2 seconds
+                            window.location.href = "/";
+                            // setTimeout(() => {
+
+                            // }, 2000);
+                        }
+                    });
+
+                },
+                (error) => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: error.text || "Something went wrong!",
+
+                    });
+
+                    console.log('FAILED...', error.text);
+                },
+            );
+    };
+
     return (
         <div>
             <Nav_2></Nav_2>
@@ -16,24 +78,25 @@ const Contact = () => {
                         </div>
                         <img src="/help.png" alt="Contact our customer support" className="p-6 h-52 md:h-64" />
                     </div>
-                    <form novalidate="" className="space-y-6">
+                    <form ref={form} onSubmit={sendEmail} novalidate="" className="space-y-6">
                         <div>
-                            <label for="name" className="text-sm">Full name</label>
-                            <input id="name" type="text" placeholder="" className="w-full p-3 rounded bg-gray-100" />
+                            <label for="name" className="text-sm">Your Name</label>
+                            <input name="client_name" id="name" type="text" placeholder="" className="w-full p-3 rounded bg-gray-100" />
                         </div>
                         <div>
-                            <label for="email" className="text-sm">Email</label>
-                            <input id="email" type="email" className="w-full p-3 rounded bg-gray-100" />
+                            <label for="email" className="text-sm">Your Email</label>
+                            <input name="client_email" id="email" type="email" className="w-full p-3 rounded bg-gray-100" />
                         </div>
                         <div>
                             <label for="message" className="text-sm">Message</label>
-                            <textarea id="message" rows="3" className="w-full p-3 rounded bg-gray-100"></textarea>
+                            <textarea name="client_message" id="message" rows="3" className="w-full p-3 rounded bg-gray-100"></textarea>
                         </div>
                         <button type="submit" className="btn w-full p-3 text-sm font-bold tracki uppercase rounded bg-violet-400 text-gray-900 hover:text-white">Send Message</button>
                     </form>
                 </div>
 
             </div>
+            <ToastContainer />
         </div>
     );
 };
