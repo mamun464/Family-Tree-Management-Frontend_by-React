@@ -28,8 +28,8 @@ const Login = () => {
 
     const togglePasswordVisibility = (e) => {
         e.preventDefault();
-        setShowPassword(!showPassword); 
-       
+        setShowPassword(!showPassword);
+
     };
 
     const handlephoneChange = (e) => {
@@ -70,19 +70,19 @@ const Login = () => {
                 localStorage.setItem('access_token', access);
                 localStorage.setItem('refresh_token', refresh);
                 localStorage.setItem('user', JSON.stringify(result.user_data));
-                toast.success(result.message);
+                // toast.success(result.message);
 
                 setTimeout(() => {
                     navigate(location?.state ? location.state : '/'); // Assuming 'Home' is your home screen name
-                }, 900);
+                }, 10);
 
                 // navigate(location?.state ? location.state : '/')
             } else {
-                toast.error(result.message);
+                toast.error(result.message || "Something went wrong");
             }
         } catch (error) {
             console.error('Error fetching data:', error);
-            toast.error(`Login Failed! ${error.message}`);
+            toast.error(error.message || "Something went wrong");
         } finally {
             setLoading(false);
         }
@@ -100,7 +100,7 @@ const Login = () => {
                 <div className="w-full border border-[#ABABAB] rounded-lg p-8 font-montserrat mt-10">
                     <h1 className="text-black text-2xl font-bold mb-6">Login</h1>
 
-                    <form className="login-form"  onSubmit={handleLogin}>
+                    <form className="login-form" onSubmit={handleLogin}>
                         <div className="mb-6">
                             <input
                                 type="tel"
@@ -121,7 +121,7 @@ const Login = () => {
                                 required
                             />
                             <button className="absolute right-0 top-0 mt-2.5 mr-3 text-2xl text-gray-600 cursor-pointer" onClick={togglePasswordVisibility}>
-                            {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                                {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
                             </button>
                         </div>
 
@@ -133,19 +133,19 @@ const Login = () => {
                             </div>
 
                             <div className="text-[#F9A51A] font-medium underline">
-                            <Link>
-                            <span
-                                style={{ transition: "font-size 0.3s, color 0.3s", fontSize: "1rem" }}
-                                onMouseEnter={(e) => { e.target.style.fontSize = '1rem'; e.target.style.color = '#D48700'; }}
-                                onMouseLeave={(e) => { e.target.style.fontSize = '0.95rem'; e.target.style.color = '#F9A51A'; }}
-                                onClick={() => setShowModal(true)}
-                            >
-                                Forgot Password?
-                            </span>
-                             </Link>
+                                <Link>
+                                    <span
+                                        style={{ transition: "font-size 0.3s, color 0.3s", fontSize: "1rem" }}
+                                        onMouseEnter={(e) => { e.target.style.fontSize = '1rem'; e.target.style.color = '#D48700'; }}
+                                        onMouseLeave={(e) => { e.target.style.fontSize = '0.95rem'; e.target.style.color = '#F9A51A'; }}
+                                        onClick={() => setShowModal(true)}
+                                    >
+                                        Forgot Password?
+                                    </span>
+                                </Link>
 
-                            <PasswordResetEmailModal showModal={showModal} setShowModal={setShowModal} />
-        
+                                <PasswordResetEmailModal showModal={showModal} setShowModal={setShowModal} />
+
 
                             </div>
                         </div>

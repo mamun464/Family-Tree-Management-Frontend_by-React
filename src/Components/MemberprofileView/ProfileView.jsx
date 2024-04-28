@@ -61,21 +61,27 @@ const ProfileView = ({ user, loading }) => {
                                     </p>
                                     <p className="text-[#475569] text-base mb-3 font-bold">
                                         <span className="italic">Profession:</span>
-                                        <span className="font-medium ml-3">{profession}</span>
+                                        <span className="font-medium ml-3">
+                                            {profession ? profession : <span className='text-gray-300' >Data Unavailable</span>}
+                                        </span>
+                                    </p>
+                                    <p className="text-[#475569] text-base mb-3 font-bold">
+                                        <span className="italic">Place of Birth:</span>
+                                        <span className="font-medium ml-3">
+                                            {place_of_birth ? place_of_birth : <span className='text-gray-300' >Data Unavailable</span>}
+                                        </span>
+
                                     </p>
                                     <p className="text-[#475569] text-base mb-3 font-bold">
                                         <span className="italic">Date of Birth:</span>
                                         <span className="font-medium ml-3">{date_of_birth}</span>
                                     </p>
-                                    <p className="text-[#475569] text-base mb-3 font-bold">
-                                        <span className="italic">Place of Birth:</span>
-                                        <span className="font-medium ml-3">{place_of_birth}</span>
-                                    </p>
+
                                     {/* Display additional fields based on user's status */}
                                     {!is_alive && (
                                         <p className="text-[#475569] text-base mb-3 font-bold">
                                             <span className="italic">Date of Death:</span>
-                                            <span className="font-medium ml-3">{date_of_death}</span>
+                                            <span className="ml-3 text-red-600 font-bold">{date_of_death}</span>
                                         </p>
                                     )}
                                 </div>
@@ -86,23 +92,38 @@ const ProfileView = ({ user, loading }) => {
                                     </h6>
                                     <p className="text-[#475569] text-base mb-3 font-bold">
                                         <span className="italic">Present Address:</span>
-                                        <span className="font-medium ml-3">{current_address}</span>
+                                        <span className="font-medium ml-3">
+                                            {current_address ? current_address : <span className='text-gray-300' >Data Unavailable</span>}
+                                        </span>
+
                                     </p>
                                     <p className="text-[#475569] text-base mb-3 font-bold">
                                         <span className="italic">Permanent Address:</span>
-                                        <span className="font-medium ml-3">{permanent_address}</span>
+                                        <span className="font-medium ml-3">
+                                            {permanent_address ? permanent_address : <span className='text-gray-300' >Data Unavailable</span>}
+                                        </span>
+
                                     </p>
                                     <p className="text-[#475569] text-base mb-3 font-bold">
                                         <span className="italic">Facebook:</span>
-                                        <span className="font-medium ml-3">{facebook}</span>
+                                        <span className="font-medium ml-3">
+                                            {facebook ? facebook : <span className='text-gray-300' >Data Unavailable</span>}
+                                        </span>
+
                                     </p>
                                     <p className="text-[#475569] text-base mb-3 font-bold">
                                         <span className="italic">Instagram:</span>
-                                        <span className="font-medium ml-3">{instagram}</span>
+                                        <span className="font-medium ml-3">
+                                            {instagram ? instagram : <span className='text-gray-300' >Data Unavailable</span>}
+                                        </span>
+
                                     </p>
                                     <p className="text-[#475569] text-base mb-3 font-bold">
                                         <span className="italic">Linkedin:</span>
-                                        <span className="font-medium ml-3">{linkedin}</span>
+                                        <span className="font-medium ml-3">
+                                            {linkedin ? linkedin : <span className='text-gray-300' >Data Unavailable</span>}
+                                        </span>
+
                                     </p>
                                 </div>
                             </div>
