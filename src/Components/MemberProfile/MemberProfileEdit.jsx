@@ -54,6 +54,7 @@ const MemberProfileEdit = () => {
     const [phone_no, setPhone_no] = useState(user?.phone_no);
     const [place_of_birth, setPlace_of_birth] = useState(user?.place_of_birth);
     const [profession, setProfession] = useState(user?.profession);
+    const [gender, setGender] = useState(user?.gender);
     const [date_of_birth, setDate_of_birth] = useState(user?.date_of_birth);
     const [date_of_death, setDate_of_death] = useState(user?.date_of_death);
     const [current_address, setCurrent_address] = useState(user?.current_address);
@@ -196,6 +197,7 @@ const MemberProfileEdit = () => {
                 phone_no,
                 place_of_birth,
                 profession,
+                gender,
                 date_of_birth,
                 date_of_death,
                 current_address,
@@ -555,7 +557,7 @@ const MemberProfileEdit = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring focus:ring-[#FDE68A] w-full ease-linear transition-all duration-150"
+                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                                 placeholder="Enter your Name"
                                                 name='name'
                                                 value={full_name}
@@ -570,7 +572,7 @@ const MemberProfileEdit = () => {
                                             </label>
                                             <input
                                                 type="email"
-                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring focus:ring-[#FDE68A] w-full ease-linear transition-all duration-150"
+                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                                 placeholder="Enter your email"
                                                 name='email'
                                                 value={email}
@@ -585,7 +587,7 @@ const MemberProfileEdit = () => {
                                             </label>
                                             <input
                                                 type="tel"
-                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring focus:ring-[#FDE68A] w-full ease-linear transition-all duration-150"
+                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                                 placeholder="Enter your number"
                                                 name='mobile'
                                                 value={phone_no}
@@ -600,7 +602,7 @@ const MemberProfileEdit = () => {
                                             </label>
                                             <input
                                                 type="tel"
-                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring focus:ring-[#FDE68A] w-full ease-linear transition-all duration-150"
+                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                                 placeholder="Enter your profession"
                                                 name='job'
                                                 value={profession}
@@ -610,12 +612,33 @@ const MemberProfileEdit = () => {
                                     </div>
                                     <div className="w-full lg:w-6/12 px-4">
                                         <div className="relative w-full mb-3">
+                                            <label className="block uppercase text-[#475569] text-xs font-bold mb-2">
+                                                Gender
+                                            </label>
+                                            <select
+                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                                name="gender"
+                                                value={gender}
+                                                onChange={(event) => setGender(event.target.value)}
+                                            >
+                                                <option value="" disabled>
+                                                    Select Gender
+                                                </option>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="w-full lg:w-6/12 px-4">
+                                        <div className="relative w-full mb-3">
                                             <label className="block uppercase text-[#475569] text-xs font-bold mb-2" >
                                                 Date of Birth
                                             </label>
                                             <input
                                                 type="date"
-                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring focus:ring-[#FDE68A] w-full ease-linear transition-all duration-150"
+                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
 
                                                 name='DOB'
                                                 value={date_of_birth}
@@ -631,7 +654,7 @@ const MemberProfileEdit = () => {
                                             </label>
                                             <input
                                                 type="tel"
-                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring focus:ring-[#FDE68A] w-full ease-linear transition-all duration-150"
+                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                                 placeholder="Enter Birth Place"
                                                 name='POB'
                                                 value={place_of_birth}
@@ -668,7 +691,7 @@ const MemberProfileEdit = () => {
                                             </label>
                                             <input
                                                 type="date"
-                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring focus:ring-[#FDE68A] w-full ease-linear transition-all duration-150"
+                                                className="border-0 px-3 py-3 placeholder-[#cbd5e1] text-[#475569] bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
 
                                                 name='DOD'
                                                 value={date_of_death}

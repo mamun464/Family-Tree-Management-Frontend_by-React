@@ -8,7 +8,7 @@ const ProfileView = ({ user, loading }) => {
 
 
     // const [user, setUser] = useState(getProfileLocalStorage());
-    const { full_name, email, phone_no, place_of_birth, profession, date_of_birth, date_of_death, current_address, permanent_address, facebook, linkedin, instagram, is_alive, user_profile_img } = user;
+    const { full_name, email, gender, phone_no, place_of_birth, profession, date_of_birth, date_of_death, current_address, permanent_address, facebook, linkedin, instagram, is_alive, user_profile_img } = user;
 
 
     return (
@@ -56,8 +56,8 @@ const ProfileView = ({ user, loading }) => {
                                         <span className="font-medium ml-3">{email}</span>
                                     </p>
                                     <p className="text-[#475569] text-base mb-3 font-bold">
-                                        <span className="italic">Phone No:</span>
-                                        <span className="font-medium ml-3">{phone_no}</span>
+                                        <span className="italic">Gender:</span>
+                                        <span className="font-medium ml-3">{gender ? gender.charAt(0).toUpperCase() + gender.slice(1) : ''}</span>
                                     </p>
                                     <p className="text-[#475569] text-base mb-3 font-bold">
                                         <span className="italic">Profession:</span>
@@ -86,10 +86,15 @@ const ProfileView = ({ user, loading }) => {
                                     )}
                                 </div>
                                 <div className="w-full lg:w-6/12 px-4">
+
                                     {/* Display Contact Information */}
                                     <h6 className="text-[#94a3b8] text-sm mt-3 mb-6 font-bold uppercase">
                                         Contact Information
                                     </h6>
+                                    <p className="text-[#475569] text-base mb-3 font-bold">
+                                        <span className="italic">Phone No:</span>
+                                        <span className="font-medium ml-3">{phone_no}</span>
+                                    </p>
                                     <p className="text-[#475569] text-base mb-3 font-bold">
                                         <span className="italic">Present Address:</span>
                                         <span className="font-medium ml-3">
