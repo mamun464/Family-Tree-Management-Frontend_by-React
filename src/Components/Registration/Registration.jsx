@@ -21,16 +21,21 @@ const Registration = () => {
 
 
 
-    const [dateChanged, setDateChanged] = useState(false);
+    // const [dateChanged, setDateChanged] = useState(false);
 
-    const handleInputChange = () => {
-        setDateChanged(true);
+    // const handleInputChange = () => {
+    //     setDateChanged(true);
+    // };
+    const [genderSelected, setGenderSelected] = useState(false);
+
+    const handleGenderChange = () => {
+        setGenderSelected(true);
     };
 
     const togglePasswordVisibility = (e) => {
         e.preventDefault();
-        setShowPassword(!showPassword); 
-       
+        setShowPassword(!showPassword);
+
     };
 
     const handlephoneChange = (e) => {
@@ -51,7 +56,7 @@ const Registration = () => {
         const full_name = form.get('fullName');
         const phone_no = form.get('phone_no');
         const email = form.get('email');
-        const date_of_birth = form.get('DOB');
+        const gender = form.get('gender');
         const password = form.get('password');
         const password2 = form.get('confirmPassword');
 
@@ -69,9 +74,10 @@ const Registration = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ full_name, email, phone_no, date_of_birth, password, password2 })
+                    body: JSON.stringify({ full_name, email, phone_no, gender, password, password2 })
                 });
 
+                console.log("gender", gender);
 
 
                 const result = await response.json();
@@ -142,7 +148,21 @@ const Registration = () => {
                             />
                         </div>
                         <div className="mb-6">
-                            <label className="block font-medium text-[#A9A9A9]">Date of Birth</label>
+                            <label className="block font-medium text-[#A9A9A9]">Gender</label>
+                            <select
+                                className={`border-b-2 ${genderSelected ? 'text-black' : 'text-[#A9A9A9]'} border-[#C5C5C5] font-medium uppercase focus:border-[#F9A51A] w-full py-2 px-3 pl-0 focus:outline-none text-black bg-transparent`}
+                                required
+                                name="gender"
+                                onChange={handleGenderChange}
+                            >
+                                <option className="text-[#A9A9A9] font-medium " value="" disabled selected>Select Gender</option>
+                                <option className="text-[#A9A9A9] font-medium " value="female">Female</option>
+                                <option className="text-[#A9A9A9] font-medium " value="male">Male</option>
+                                <option className="text-[#A9A9A9] font-medium " value="other">Other</option>
+                            </select>
+                        </div>
+                        {/* <div className="mb-6">
+                            <label className="block font-medium text-[#A9A9A9]">Gender</label>
                             <input
                                 type="date"
                                 className={`border-b-2 ${dateChanged ? 'text-black' : 'text-[#A9A9A9]'} border-[#C5C5C5] font-medium uppercase focus:border-[#F9A51A] w-full py-2 px-3 pl-0 focus:outline-none`}
@@ -150,7 +170,7 @@ const Registration = () => {
                                 name="DOB"
                                 onChange={handleInputChange}
                             />
-                        </div>
+                        </div> */}
                         <div className="mb-6 relative">
                             <input
                                 type={showPassword ? "text" : "password"}
@@ -160,18 +180,18 @@ const Registration = () => {
                                 name="password"
                             />
                             <button className="absolute right-0 top-0 mt-2.5 mr-3 text-2xl text-gray-600 cursor-pointer" onClick={togglePasswordVisibility}>
-                            {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                                {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
                             </button>
                         </div>
                         <div className="mb-6">
                             <input
-                               type={showPassword ? "text" : "password"}
+                                type={showPassword ? "text" : "password"}
                                 className="border-b-2 border-[#C5C5C5] font-medium focus:border-[#F9A51A] w-full py-2 px-3 pl-0 text-black focus:outline-none"
                                 placeholder="Confirm Password"
                                 required
                                 name="confirmPassword"
                             />
-                            
+
                         </div>
 
                         <button type="submit" className="bg-[#F9A51A] w-full text-black font-medium py-3 px-4 rounded focus:outline-none focus:bg-[#f9a31aa2] hover:bg-[#f9a31aa2]"
